@@ -1,0 +1,87 @@
+{% load static %}
+{% csrf_token %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link href=" {% static '/css/style.css' %} " rel="stylesheet" type="text/css" defer="">
+</head>
+
+<body>
+<div class="login-section">
+	<div class="containertwo">
+		<div class="login-inner">
+			<div class="left_se_login login_f d-flex align-items-center r1">
+				<img src=" {% static 'images/image 3.png' %} ">
+				
+			</div>
+			<div class="right_se_login login_f">
+<img src="{% static 'images/Group 138.png' %} " {% static 'images/Group 138.png' %} ">
+<p style="font-weight: 400; font-size: 16px; padding-top: 17px;">Did you forget your password?</p>
+<form>
+  <div class="form-group">
+    <input class="form-control" id="userName" type="text" placeholder="User Id">
+
+  </div>
+  <div class="form-group">
+    <input class="form-control" id="password" type="password" placeholder="Consumer Key">
+
+  </div>
+  <div class="form-group">
+    <input class="form-control" id="pin" type="text" placeholder="Access Token">
+
+  </div>
+  <div class="form-group">
+    <div class="form-check checkbox-theme">
+        <input class="form-check-input" type="checkbox" name="remember" id="remember" >
+                                            <label class="form-check-label" for="rememberMe">
+                                                Remember me
+                                            </label>
+                                        </div>
+
+  </div>
+  <button class="btn btn_sub" type="button" onclick="login();" >Submit</button>
+  <!-- <input id="clickMe" type="button" value="Submit" onclick="login();" /> -->
+
+</form>
+
+
+            </div>
+            <div style="clear: both;"></div>
+		</div>
+
+	</div>
+
+
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script>
+  function login() {
+    console.log('login','login');
+    var userName = document.getElementById("userName");
+    var password = document.getElementById("password");
+    var pin = document.getElementById("pin");
+    console.log('password',password.value);
+      $.ajax({
+          url: "loginUser",
+          type: 'POST',
+          context: document.body,
+          data: { userId: userName.value , consumerKey:password.value, accessToken:pin.value,'csrfmiddlewaretoken':"{{ csrf_token }}" },
+          success: function (data) {
+               console.log(data);
+               location.replace('http://127.0.0.1:8000/share/dashboard');
+          },
+      }).done(function () {
+          // alert('finished extracting data');;
+      });
+  }
+</script>
+</body>
+
+</html>

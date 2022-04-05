@@ -1,0 +1,99 @@
+{% load static %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link href=" {% static '/css/style.css' %} " rel="stylesheet" type="text/css" defer="">
+</head>
+
+<body>
+<div class="dashboard-section">
+  <div class="des_header"><h3>Dashboard</h3></div>
+	<div class="container">
+    <div class="des_table">
+      <div class="table_text_he">
+        <div class="row">
+          <div class="col-6 text-left m-auto"><h5 class="tittletwo">Already Running Scalping</h5></div>
+          <div class="col-6 text-right"><a class="btnone" href="http://127.0.0.1:8000/share/addNewScalping">Add New Scarlping</a></div>
+
+        </div>
+
+      </div>
+      <div class="table_inner">
+      <table class="table table_des">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Date <img src=" {% static 'images/line.png' %} "></th>
+            <th scope="col">Type <img src=" {% static 'images/line.png' %} "></th>
+            <th scope="col">Steps <img src=" {% static 'images/line.png' %} "></th>
+            <th scope="col">Instrument No. <img src=" {% static 'images/line2.png' %} "></th>
+            <th scope="col">Entry diff.. <img src=" {% static 'images/line2.png' %} "></th>
+            <th scope="col">Exit diff.. <img src=" {% static 'images/line.png' %} "></th>
+            <th scope="col">Start price <img src=" {% static 'images/line.png' %} "></th>
+            <th scope="col">Last price <img src=" {% static 'images/line.png' %} "></th>
+            <th scope="col">Actions </th>
+          </tr>
+        </thead>
+        <tbody>
+
+          {% for order in scalpingOrder %}
+          <tr class="buy_se">
+            <th scope="row">{{ order.currentdate }}</th>
+            <td>{{ order.orderType }}</td>
+            <td><img src=" {% static 'images/Vector.png' %} ">{{ order.steps }}</td>
+            <td>{{ order.instrumentToken }}</td>
+            <td><img src=" {% static 'images/Vector.png' %} ">{{ order.entryDiff }}</td>
+            <td><img src=" {% static 'images/Vector.png' %} ">{{ order.exitDiff }}</td>
+            <td><img src=" {% static 'images/Vector.png' %} ">{{ order.startPrice }}</td>
+            <td><img src=" {% static 'images/Vector.png' %} ">1,200</td>
+            <td>
+                <p class="action_btn"><a href="view.html"><img class="icon_view" src=" {% static 'images/carbon_view.png' %}"> <img class="hover_view" src=" {% static 'images/carbon_view2.png' %}"></a> 
+                <a href="#"><img class="icon_view" src=" {% static 'images/ant-design_edit-outlined.png' %}"><img class="hover_view" src=" {% static 'images/Vector2.png' %}"> </a>
+                <a href="#"><img onclick="runScalping('{{order.id}}');" class="icon_view" src=" {% static 'images/power-button.png' %}"> <img onclick="runScalping('{{order.id}}');" class="hover_view" src=" {% static 'images/power-button.png' %}"></a>
+                <a href="#"><img class="icon_view" src=" {% static 'images/Group 89.png' %}"> <img class="hover_view" src=" {% static 'images/Group 93.png' %}"></a></p>
+            </td>
+          </tr>
+          {% endfor %}
+
+        </tbody>
+
+
+      </table>
+    </div>
+
+    </div> 
+
+
+  </div>
+
+
+</div>
+
+<script>
+  function runScalping(order){
+    console.log('clicked',order);
+      $.ajax({
+          url: "runScalping",
+          type: 'POST',
+          context: document.body,
+          data: { orderid: order,'csrfmiddlewaretoken':"{{ csrf_token }}" },
+          success: function (data) {
+               console.log(data);
+          },
+      }).done(function () {
+          // alert('finished extracting data');;
+      });
+
+  }
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+
+</html>
