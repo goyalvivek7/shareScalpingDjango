@@ -28,6 +28,7 @@
                 <label>
                   Add Instruments
               </label>
+              
                 <input id="instrument_token" class="form-control" type="text" ><img  onclick="addInstrument();" src=" {% static 'images/Group 72.png' %} ">
 
               </div>
@@ -50,9 +51,31 @@
               </div>
               
               <div class="form-check check_btn">
-                <input class="form-check-input" type="radio" name="scalpingtype" id="scalpingtype2" value="Sell" checked>
+                <input class="form-check-input" type="radio" name="scalpingtype" id="scalpingtype2" value="Sell" >
                 <label class="form-check-label" for="exampleRadios2">
                   Sell
+                </label>
+              </div>
+              </div>
+
+            </div>
+            <div class="col-sm-6 col-md-3">
+
+              <div class="form-group">
+                <label>
+                  Intrumenet Type
+              </label>
+              <div class="form-check check_btn">
+                <input class="form-check-input" type="radio" name="instrumentType" id="instrumentType1" value="Normal" checked>
+                <label class="form-check-label" for="exampleRadios1">
+                  Normal 
+                </label>
+              </div>
+              
+              <div class="form-check check_btn">
+                <input class="form-check-input" type="radio" name="instrumentType" id="instrumentType2" value="Cash" >
+                <label class="form-check-label" for="exampleRadios2">
+                  Cash
                 </label>
               </div>
               </div>
@@ -155,7 +178,22 @@
       fields[1] = '0'+fields[1];
     }
     var newdate = fields[0]+'_'+fields[1]+'_'+fields[2];
-    var instrumentLink = "https://preferred.kotaksecurities.com/security/production/TradeApiInstruments_fno_"+newdate+".txt";
+
+    var insruNormalType = document.getElementById("instrumentType1").checked;
+    var insruNormalCash = document.getElementById("instrumentType2").checked;
+
+    var instrumentLink = '';
+
+    if(insruNormalType == true)
+    {
+      instrumentLink = "https://preferred.kotaksecurities.com/security/production/TradeApiInstruments_fno_"+newdate+".txt";
+    }
+    else if(insruNormalCash == true)
+    {
+      instrumentLink = "https://preferred.kotaksecurities.com/security/production/TradeApiInstruments_Cash_"+newdate+".txt";
+    }
+
+   
     console.log(newdate);
     window.open(instrumentLink, '_blank').focus();
   }
@@ -167,6 +205,7 @@
   
     var instrumentToken = document.getElementById("instrument_token").value;
     var orderType = "Sell";
+    var instrumenttype = "Cash";
     var lotQuantity = document.getElementById("lot_quantity").value;
     var steps = document.getElementById("steps").value;
     var entryDiff = document.getElementById("entry_diff").value;
@@ -176,8 +215,23 @@
     var buyType = document.getElementById("scalpingtype1").checked;
     var sellType = document.getElementById("scalpingtype2").checked;
 
+    var insruNormalType = document.getElementById("instrumentType1").checked;
+    var insruNormalCash = document.getElementById("instrumentType2").checked;
+
     console.log(buyType);
     console.log(sellType);
+
+    console.log(insruNormalType);
+    console.log(insruNormalCash);
+
+    if(insruNormalType == true)
+    {
+      instrumenttype = "Normal";
+    }
+    else if(insruNormalCash == true)
+    {
+      instrumenttype = "Cash";
+    }
 
     if(buyType == true)
     {
@@ -224,7 +278,7 @@
           url: "addScalping",
           type: 'POST',
           context: document.body,
-          data: { instrumentToken: instrumentToken , orderType:orderType, lotQuantity:lotQuantity, steps:steps, entryDiff:entryDiff, exitDiff:exitDiff, startPrice:startPrice,'csrfmiddlewaretoken':"{{ csrf_token }}" },
+          data: {instrumenttype:instrumenttype , instrumentToken: instrumentToken , orderType:orderType, lotQuantity:lotQuantity, steps:steps, entryDiff:entryDiff, exitDiff:exitDiff, startPrice:startPrice,'csrfmiddlewaretoken':"{{ csrf_token }}" },
           success: function (data) {
                console.log(data);
                location.replace('http://127.0.0.1:8000/share/dashboard');

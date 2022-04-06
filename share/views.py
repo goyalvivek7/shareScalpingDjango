@@ -93,11 +93,16 @@ def runScalping(request):
                 print(x)
                 outputQuery = client.place_order(order_type="N", instrument_token=instrument_token, transaction_type=initialOrderType, quantity=lotQuantity,
                                                  price=startPrice, disclosed_quantity=0, trigger_price=0, validity="GFD", variety="REGULAR", tag="order"+str(x))
-                orderhistoryvariable = outputQuery["Success"]['NSE-FX']
+                if(scalipingOrder[0].instrumenttype == 'Normal'):
+                    orderhistoryvariable = outputQuery["Success"]['NSE']
+
+                if(scalipingOrder[0].instrumenttype == 'Cash'):
+                    orderhistoryvariable = outputQuery["Success"]['NSE-FX']
+
                 equivalentOrderPrice = startPrice - exitDiff
                 
                 orderHistory = OrderHistory(scalpingOrderid=requestData['orderid'], instrument_token=instrument_token, equivalentOrderPrice=equivalentOrderPrice, order_type="N",
-                                            quantity=lotQuantity, order_id=orderhistoryvariable['orderId'], order_status='pending', initialOrderType=initialOrderType, startPrice=startPrice)
+                                            quantity=lotQuantity, order_id=orderhistoryvariable['orderId'], order_status='pending', initialOrderType=initialOrderType, startPrice=startPrice,instrumenttype=scalipingOrder[0].instrumenttype)
                 orderHistory.save()
         
                 startPrice = startPrice + entryDiff
@@ -120,13 +125,19 @@ def runScalping(request):
                 print(x)
                 outputQuery = client.place_order(order_type="N", instrument_token=instrument_token, transaction_type=initialOrderType, quantity=lotQuantity,
                                              price=startPrice, disclosed_quantity=0, trigger_price=0, validity="GFD", variety="REGULAR", tag="order"+str(x))
-                orderhistoryvariable = outputQuery["Success"]['NSE-FX']
+                
+                if(scalipingOrder[0].instrumenttype == 'Normal'):
+                    orderhistoryvariable = outputQuery["Success"]['NSE']
+
+                if(scalipingOrder[0].instrumenttype == 'Cash'):
+                    orderhistoryvariable = outputQuery["Success"]['NSE-FX']
+
                 equivalentOrderPrice = startPrice + exitDiff
                 orderHistory.append(orderHistoryModel(instrument_token, equivalentOrderPrice, "N",
                                 lotQuantity, orderhistoryvariable['orderId'], 'pending', initialOrderType, startPrice))
         
                 orderHistory = OrderHistory(scalpingOrderid=requestData['orderid'], instrument_token=instrument_token, equivalentOrderPrice=equivalentOrderPrice, order_type="N",
-                                            quantity=lotQuantity, order_id=orderhistoryvariable['orderId'], order_status='pending', initialOrderType=initialOrderType, startPrice=startPrice)
+                                            quantity=lotQuantity, order_id=orderhistoryvariable['orderId'], order_status='pending', initialOrderType=initialOrderType, startPrice=startPrice, instrumenttype=scalipingOrder[0].instrumenttype)
                 orderHistory.save()   
         
                 startPrice = startPrice - entryDiff
@@ -164,7 +175,13 @@ def sum():
                             outputQuery = client.place_order(order_type=item.order_type, instrument_token=item.instrument_token, transaction_type="SELL", quantity=item.quantity,
                                                              price=item.startPrice, disclosed_quantity=0, trigger_price=0, validity="GFD", variety="REGULAR", tag="original")
                             time.sleep(2)
-                            orderhistoryvariable = outputQuery["Success"]['NSE-FX']
+                            
+                            if(item.instrumenttype == 'Normal'):
+                                orderhistoryvariable = outputQuery["Success"]['NSE']
+
+                            if(item.instrumenttype == 'Cash'):
+                                orderhistoryvariable = outputQuery["Success"]['NSE-FX']
+
                             item.order_id = orderhistoryvariable['orderId']
                             item.initialOrderType = "SELL"
                             item.save()
@@ -172,7 +189,13 @@ def sum():
                             outputQuery = client.place_order(order_type=item.order_type, instrument_token=item.instrument_token, transaction_type="BUY", quantity=item.quantity,
                                                              price=item.equivalentOrderPrice, disclosed_quantity=0, trigger_price=0, validity="GFD", variety="REGULAR", tag="equivalent")
                             time.sleep(2)
-                            orderhistoryvariable = outputQuery["Success"]['NSE-FX']
+                            
+                            if(item.instrumenttype == 'Normal'):
+                                orderhistoryvariable = outputQuery["Success"]['NSE']
+
+                            if(item.instrumenttype == 'Cash'):
+                                orderhistoryvariable = outputQuery["Success"]['NSE-FX']
+
                             item.order_id = orderhistoryvariable['orderId']
                             item.initialOrderType = "BUY"
                             item.save()
@@ -190,8 +213,8 @@ def printHello():
 
 def loginUser(request):
 
-    queue = get_queue('default')
-    job = queue.enqueue_at(datetime(2020, 10, 10), sum())
+    # queue = get_queue('default')
+    # job = queue.enqueue_at(datetime(2020, 10, 10), sum())
     
     
     
@@ -228,7 +251,8 @@ def addScalping(request):
     entryDiff = requestData.get('entryDiff')
     exitDiff = requestData.get('exitDiff')
     startPrice = requestData.get('startPrice')
+    instrumenttype = requestData.get('instrumenttype');
     scaplingOrder = ScalpingOrder(userid=request.session['user_id'], currentdate=currentdate, instrumentToken=instrumentToken, orderType=orderType,
-                                  lotQuantity=lotQuantity, steps=steps, entryDiff=entryDiff, exitDiff=exitDiff, startPrice=startPrice)
+                                  lotQuantity=lotQuantity, steps=steps, entryDiff=entryDiff, exitDiff=exitDiff, startPrice=startPrice ,instrumenttype=instrumenttype)
     scaplingOrder.save()
     return HttpResponse("Hello, world. You're at the polls index.")

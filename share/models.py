@@ -17,6 +17,7 @@ class ScalpingOrder(models.Model):
     exitDiff = models.CharField(max_length=200)
     startPrice = models.CharField(max_length=200)
     status = models.CharField(max_length=200 , default='active')
+    instrumenttype = models.CharField(max_length=200 , default='')
 
 class OrderHistory(models.Model):
     scalpingOrderid = models.CharField(max_length=200)
@@ -28,5 +29,6 @@ class OrderHistory(models.Model):
     order_status = models.CharField(max_length=200)
     initialOrderType = models.CharField(max_length=200)
     startPrice = models.CharField(max_length=200)
+    instrumenttype = models.CharField(max_length=200 , default='')
 
 
