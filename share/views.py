@@ -65,11 +65,11 @@ def runScalping(request):
 
     if scalipingOrder.count() > 0:
 
-        userId = 'RAJEE19970'
-        consumerKey = 'pdRLQ0EOtduAn91p7wdLiqFkxnca'
-        accessToken = '3825657f-4b11-34da-91ef-f3350affb90e'
-        accessCode = "9372"
-        app_id = "99628ce6-d9d0-4161-b12b-10fdf36ac5bf"
+        userId = 'PAR97_56'
+        consumerKey = 'Z2wfl8frw78RnUvnO5sNT3C2eEca'
+        accessToken = '17f745f8-577e-368f-b76e-c0343fbb43e2'
+        accessCode = "2148"
+        app_id = "efe683d5-2f91-4649-9bc9-0ae0547d849a"
     
         client = ks_api.KSTradeApi(access_token=accessToken, userid=userId,
                                    consumer_key=consumerKey, ip="127.0.0.1", app_id=app_id)
@@ -81,23 +81,21 @@ def runScalping(request):
         if scalipingOrder[0].orderType == 'Sell':
             # for sell type order
             initialOrderType = "SELL"
-            steps = 5
-            entryDiff = 0.005
-            exitDiff = 0.005
-            startPrice = 99.2875
-            instrument_token = 34167
-            lotQuantity = 1000
+            steps = int(scalipingOrder[0].steps)
+            entryDiff = float(scalipingOrder[0].entryDiff)
+            exitDiff = float(scalipingOrder[0].exitDiff)
+            startPrice = float(scalipingOrder[0].startPrice)
+            instrument_token = int(scalipingOrder[0].instrumentToken)
+            lotQuantity = int(scalipingOrder[0].lotQuantity)
             # Place an order
-            orderHistory = []
+            
             for x in range(steps):
                 print(x)
                 outputQuery = client.place_order(order_type="N", instrument_token=instrument_token, transaction_type=initialOrderType, quantity=lotQuantity,
                                                  price=startPrice, disclosed_quantity=0, trigger_price=0, validity="GFD", variety="REGULAR", tag="order"+str(x))
                 orderhistoryvariable = outputQuery["Success"]['NSE-FX']
                 equivalentOrderPrice = startPrice - exitDiff
-                orderHistory.append(orderHistoryModel(instrument_token, equivalentOrderPrice, "N",
-                                                      lotQuantity, orderhistoryvariable['orderId'], 'pending', initialOrderType, startPrice))
-        
+                
                 orderHistory = OrderHistory(scalpingOrderid=requestData['orderid'], instrument_token=instrument_token, equivalentOrderPrice=equivalentOrderPrice, order_type="N",
                                             quantity=lotQuantity, order_id=orderhistoryvariable['orderId'], order_status='pending', initialOrderType=initialOrderType, startPrice=startPrice)
                 orderHistory.save()
@@ -110,19 +108,19 @@ def runScalping(request):
         if scalipingOrder[0].orderType == 'Buy':
             # for buy type order
             initialOrderType = "BUY"
-            steps = 12
-            entryDiff = 0.05
-            exitDiff = 0.05
-            startPrice = 3.75
-            instrument_token = 48863
-            lotQuantity = 850
+            steps = scalipingOrder[0].steps
+            entryDiff = scalipingOrder[0].entryDiff
+            exitDiff = scalipingOrder[0].exitDiff
+            startPrice = scalipingOrder[0].startPrice
+            instrument_token = scalipingOrder[0].instrumentToken
+            lotQuantity = scalipingOrder[0].lotQuantity
             # Place an order
             orderHistory = []
             for x in range(steps):
                 print(x)
                 outputQuery = client.place_order(order_type="N", instrument_token=instrument_token, transaction_type=initialOrderType, quantity=lotQuantity,
                                              price=startPrice, disclosed_quantity=0, trigger_price=0, validity="GFD", variety="REGULAR", tag="order"+str(x))
-                orderhistoryvariable = outputQuery["Success"]['NSE']
+                orderhistoryvariable = outputQuery["Success"]['NSE-FX']
                 equivalentOrderPrice = startPrice + exitDiff
                 orderHistory.append(orderHistoryModel(instrument_token, equivalentOrderPrice, "N",
                                 lotQuantity, orderhistoryvariable['orderId'], 'pending', initialOrderType, startPrice))
@@ -140,13 +138,13 @@ def runScalping(request):
 def sum():
 
 
-    orderHistory = OrderHistory.objects.all
+    orderHistory = OrderHistory.objects.all()
 
-    userId = 'RAJEE19970'
-    consumerKey = 'pdRLQ0EOtduAn91p7wdLiqFkxnca'
-    accessToken = '3825657f-4b11-34da-91ef-f3350affb90e'
-    accessCode = "9372"
-    app_id = "99628ce6-d9d0-4161-b12b-10fdf36ac5bf"
+    userId = 'PAR97_56'
+    consumerKey = 'Z2wfl8frw78RnUvnO5sNT3C2eEca'
+    accessToken = '17f745f8-577e-368f-b76e-c0343fbb43e2'
+    accessCode = "2148"
+    app_id = "efe683d5-2f91-4649-9bc9-0ae0547d849a"
 
     client = ks_api.KSTradeApi(access_token=accessToken, userid=userId,
                                consumer_key=consumerKey, ip="127.0.0.1", app_id=app_id)
@@ -154,6 +152,7 @@ def sum():
     client.session_2fa(access_code=accessCode)
 
     for x in range(90000000000000000000):
+        print('looping')
         outputOrder = client.order_report()
         time.sleep(1)
         for item in orderHistory:
@@ -168,6 +167,7 @@ def sum():
                             orderhistoryvariable = outputQuery["Success"]['NSE-FX']
                             item.order_id = orderhistoryvariable['orderId']
                             item.initialOrderType = "SELL"
+                            item.save()
                         else:
                             outputQuery = client.place_order(order_type=item.order_type, instrument_token=item.instrument_token, transaction_type="BUY", quantity=item.quantity,
                                                              price=item.equivalentOrderPrice, disclosed_quantity=0, trigger_price=0, validity="GFD", variety="REGULAR", tag="equivalent")
@@ -175,6 +175,7 @@ def sum():
                             orderhistoryvariable = outputQuery["Success"]['NSE-FX']
                             item.order_id = orderhistoryvariable['orderId']
                             item.initialOrderType = "BUY"
+                            item.save()
 
         # print(outputOrder)
     print('loop ends')
@@ -190,37 +191,29 @@ def printHello():
 def loginUser(request):
 
     queue = get_queue('default')
-    job = queue.enqueue_at(datetime(2020, 10, 10), printHello)
+    job = queue.enqueue_at(datetime(2020, 10, 10), sum())
+    
+    
+    
 
-    # scheduler = django_rq.get_scheduler('default')
-    # scheduler.schedule(
-    #     scheduled_time=datetime.utcnow(), # Time for first execution, in UTC timezone
-    #     func=printHello,                     # Function to be queued
-    #     args=[],             # Arguments passed into function when executed
-    #     kwargs={},         # Keyword arguments passed into function when executed
-    #     interval=1,                   # Time before the function is called again, in seconds
-    #     repeat=10,                     # Repeat this number of times (None means repeat forever)
-    #     meta={'foo': 'bar'}
-    # )
-    # scheduler.run()
+    requestData = request.POST
+    print(requestData)
+    userId = 'PAR97_56'
+    consumerKey = 'Z2wfl8frw78RnUvnO5sNT3C2eEca'
+    accessToken = '17f745f8-577e-368f-b76e-c0343fbb43e2'
+    accessCode = "2148"
+    app_id = "efe683d5-2f91-4649-9bc9-0ae0547d849a"
 
-    # requestData = request.POST
-    # print(requestData)
-    # userId = 'PAR97_56'
-    # consumerKey = 'Z2wfl8frw78RnUvnO5sNT3C2eEca'
-    # accessToken = '17f745f8-577e-368f-b76e-c0343fbb43e2'
-    # accessCode = "3367"
+    client = ks_api.KSTradeApi(access_token=accessToken, userid=userId,
+                               consumer_key=consumerKey, ip="127.0.0.1", app_id=app_id)
+    client.login(password="march@2022")
+    client.session_2fa(access_code = accessCode)
 
-    # client = ks_api.KSTradeApi(access_token=accessToken, userid=userId,
-    #                            consumer_key=consumerKey, ip="127.0.0.1", app_id="efe683d5-2f91-4649-9bc9-0ae0547d849a")
-    # client.login(password="march@2022")
-    # client.session_2fa(access_code = accessCode)
-
-    # user = User(user_id=userId, consumer_key=consumerKey,access_token=accessToken,
-    #             accessCode=accessCode)
-    # user.save()
-    # print(user.id)
-    # request.session['user_id'] = user.id
+    user = User(user_id=userId, consumer_key=consumerKey,access_token=accessToken,
+                accessCode=accessCode)
+    user.save()
+    print(user.id)
+    request.session['user_id'] = user.id
     return HttpResponse("Hello, world. You're at the polls index.")
 
 
