@@ -23,24 +23,18 @@ def index(request):
     # return HttpResponse("Hello, world. You're at the polls index.")
     context = {"login": "login"}
     return render(request, 'share/login.html', context)
-
-
 def dashboardView(request):
     print(request.session['user_id'])
     scalpingOrder = ScalpingOrder.objects.all()
     context = {
         "scalpingOrder": scalpingOrder}
     return render(request, 'share/dashboard.html', context)
-
-
 def addNewScalping(request):
     context = {"dashboard": "dashboard"}
     return render(request, 'share/addNewScalping.html', context)
 
 
 global client
-
-
 class orderHistoryModel:
     def __init__(self, instrument_token, equivalentOrderPrice, order_type, quantity, order_id, order_status, initialOrderType, startPrice):
         self.instrument_token = instrument_token
@@ -142,11 +136,11 @@ def runScalping(request):
         
                 startPrice = startPrice - entryDiff
 
-        sum()
+        backgroundTask()
     return HttpResponse("Hello, world. You're at the polls index.")
 
 
-def sum():
+def backgroundTask():
 
 
     orderHistory = OrderHistory.objects.all()
@@ -204,17 +198,11 @@ def sum():
     print('loop ends')
 
 
-def printHello():
-    for x in range(90000000000000000000):
-        print('hello')
-
-    print('loop ends')
-
 
 def loginUser(request):
 
     # queue = get_queue('default')
-    # job = queue.enqueue_at(datetime(2020, 10, 10), sum())
+    # job = queue.enqueue_at(datetime(2020, 10, 10), backgroundTask())
     
     
     
