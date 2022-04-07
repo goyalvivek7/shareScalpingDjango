@@ -35,43 +35,49 @@ class backgroundTask():
         client.login(password="march@2022")
         client.session_2fa(access_code=accessCode)
     
-        for x in range(90000000000000000000):
-            print('looping')
-            outputOrder = client.order_report()
-            time.sleep(1)
-            for item in orderHistory:
-                if item.order_status == 'pending':
-                    for historyOrder in outputOrder['success']:
-                        if int(item.order_id) == historyOrder['orderId'] and historyOrder['status'] == 'TRAD':
-                            print('submit order'+str(item.order_id))
-                            if item.initialOrderType == 'BUY':
-                                outputQuery = client.place_order(order_type=item.order_type, instrument_token=int(item.instrument_token), transaction_type="SELL", quantity=int(item.quantity),
-                                                                 price=float(item.startPrice), disclosed_quantity=0, trigger_price=0, validity="GFD", variety="REGULAR", tag="original")
-                                time.sleep(2)
-                                
-                                if(item.instrumenttype == 'Normal'):
-                                    orderhistoryvariable = outputQuery["Success"]['NSE']
-    
-                                if(item.instrumenttype == 'Cash'):
-                                    orderhistoryvariable = outputQuery["Success"]['NSE-FX']
-    
-                                item.order_id = orderhistoryvariable['orderId']
-                                item.initialOrderType = "SELL"
-                                item.save()
-                            else:
-                                outputQuery = client.place_order(order_type=item.order_type, instrument_token=int(item.instrument_token), transaction_type="BUY", quantity=int(item.quantity),
-                                                                 price=float(item.equivalentOrderPrice), disclosed_quantity=0, trigger_price=0, validity="GFD", variety="REGULAR", tag="equivalent")
-                                time.sleep(2)
-                                
-                                if(item.instrumenttype == 'Normal'):
-                                    orderhistoryvariable = outputQuery["Success"]['NSE']
-    
-                                if(item.instrumenttype == 'Cash'):
-                                    orderhistoryvariable = outputQuery["Success"]['NSE-FX']
-    
-                                item.order_id = orderhistoryvariable['orderId']
-                                item.initialOrderType = "BUY"
-                                item.save()
-    
+        while True:
+            try:
+                 print('looping')
+                 outputOrder = client.order_report()
+                 time.sleep(1)
+                 for item in orderHistory:
+                     if item.order_status == 'pending':
+                         for historyOrder in outputOrder['success']:
+                             if int(item.order_id) == historyOrder['orderId'] and historyOrder['status'] == 'TRAD':
+                                 print('submit order'+str(item.order_id))
+                                 if item.initialOrderType == 'BUY':
+                                     outputQuery = client.place_order(order_type=item.order_type, instrument_token=int(item.instrument_token), transaction_type="SELL", quantity=int(item.quantity),
+                                                                      price=float(item.startPrice), disclosed_quantity=0, trigger_price=0, validity="GFD", variety="REGULAR", tag="original")
+                                     time.sleep(2)
+                                     
+                                     if(item.instrumenttype == 'Normal'):
+                                         orderhistoryvariable = outputQuery["Success"]['NSE']
+         
+                                     if(item.instrumenttype == 'Cash'):
+                                         orderhistoryvariable = outputQuery["Success"]['NSE-FX']
+         
+                                     item.order_id = orderhistoryvariable['orderId']
+                                     item.initialOrderType = "SELL"
+                                     item.save()
+                                 else:
+                                     outputQuery = client.place_order(order_type=item.order_type, instrument_token=int(item.instrument_token), transaction_type="BUY", quantity=int(item.quantity),
+                                                                      price=float(item.equivalentOrderPrice), disclosed_quantity=0, trigger_price=0, validity="GFD", variety="REGULAR", tag="equivalent")
+                                     time.sleep(2)
+                                     
+                                     if(item.instrumenttype == 'Normal'):
+                                         orderhistoryvariable = outputQuery["Success"]['NSE']
+         
+                                     if(item.instrumenttype == 'Cash'):
+                                         orderhistoryvariable = outputQuery["Success"]['NSE-FX']
+         
+                                     item.order_id = orderhistoryvariable['orderId']
+                                     item.initialOrderType = "BUY"
+                                     item.save()
+            except:
+                print('error')
+                client = ks_api.KSTradeApi(access_token=accessToken, userid=userId,
+                                   consumer_key=consumerKey, ip="127.0.0.1", app_id=app_id)
+                client.login(password="march@2022")
+                client.session_2fa(access_code=accessCode)
             # print(outputOrder)
         print('loop ends')
