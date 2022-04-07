@@ -17,6 +17,7 @@ from django_rq import job
 from redis import Redis
 from rq_scheduler import Scheduler
 from django_rq.queues import get_queue
+import threading
 
 
 def index(request):
@@ -197,17 +198,14 @@ def backgroundTask():
         # print(outputOrder)
     print('loop ends')
 
-
+def backgroundTest(id):
+    print('hello')
+    for x in range(90000000000000000000):
+        time.sleep(1)
+        print('heelo')
 
 def loginUser(request):
 
-    # backgroundTask();
-
-    queue = get_queue('default')
-    job = queue.enqueue_at(datetime(2020, 10, 10), backgroundTask())
-    
-    
-    
 
     requestData = request.POST
     print(requestData)
