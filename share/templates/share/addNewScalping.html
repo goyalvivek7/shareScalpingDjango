@@ -68,16 +68,24 @@
               <div class="form-check check_btn">
                 <input class="form-check-input" type="radio" name="instrumentType" id="instrumentType1" value="Normal" checked>
                 <label class="form-check-label" for="exampleRadios1">
-                  Normal 
+                  Equity 
                 </label>
               </div>
               
               <div class="form-check check_btn">
                 <input class="form-check-input" type="radio" name="instrumentType" id="instrumentType2" value="Cash" >
                 <label class="form-check-label" for="exampleRadios2">
-                  Cash
+                  Currency
                 </label>
               </div>
+
+              <div class="form-check check_btn">
+                <input class="form-check-input" type="radio" name="instrumentType" id="instrumentType2" value="Cash" >
+                <label class="form-check-label" for="exampleRadios2">
+                  FNO
+                </label>
+              </div>
+
               </div>
 
             </div>
@@ -186,11 +194,12 @@
 
     if(insruNormalType == true)
     {
-      instrumentLink = "https://preferred.kotaksecurities.com/security/production/TradeApiInstruments_fno_"+newdate+".txt";
+      instrumentLink = "https://preferred.kotaksecurities.com/security/production/TradeApiInstruments_Cash_"+newdate+".txt";
+     
     }
     else if(insruNormalCash == true)
     {
-      instrumentLink = "https://preferred.kotaksecurities.com/security/production/TradeApiInstruments_Cash_"+newdate+".txt";
+      instrumentLink = "https://preferred.kotaksecurities.com/security/production/TradeApiInstruments_fno_"+newdate+".txt";
     }
 
    

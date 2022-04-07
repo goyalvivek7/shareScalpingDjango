@@ -62,7 +62,7 @@ def runScalping(request):
         userId = 'PAR97_56'
         consumerKey = 'Z2wfl8frw78RnUvnO5sNT3C2eEca'
         accessToken = '17f745f8-577e-368f-b76e-c0343fbb43e2'
-        accessCode = "2148"
+        accessCode = "4315"
         app_id = "efe683d5-2f91-4649-9bc9-0ae0547d849a"
     
         client = ks_api.KSTradeApi(access_token=accessToken, userid=userId,
@@ -148,7 +148,7 @@ def backgroundTask():
     userId = 'PAR97_56'
     consumerKey = 'Z2wfl8frw78RnUvnO5sNT3C2eEca'
     accessToken = '17f745f8-577e-368f-b76e-c0343fbb43e2'
-    accessCode = "2148"
+    accessCode = "4315"
     app_id = "efe683d5-2f91-4649-9bc9-0ae0547d849a"
 
     client = ks_api.KSTradeApi(access_token=accessToken, userid=userId,
@@ -163,11 +163,11 @@ def backgroundTask():
         for item in orderHistory:
             if item.order_status == 'pending':
                 for historyOrder in outputOrder['success']:
-                    if item.order_id == historyOrder['orderId'] and historyOrder['status'] == 'TRAD':
+                    if int(item.order_id) == historyOrder['orderId'] and historyOrder['status'] == 'TRAD':
                         print('submit order'+str(item.order_id))
                         if item.initialOrderType == 'BUY':
-                            outputQuery = client.place_order(order_type=item.order_type, instrument_token=item.instrument_token, transaction_type="SELL", quantity=item.quantity,
-                                                             price=item.startPrice, disclosed_quantity=0, trigger_price=0, validity="GFD", variety="REGULAR", tag="original")
+                            outputQuery = client.place_order(order_type=item.order_type, instrument_token=int(item.instrument_token), transaction_type="SELL", quantity=int(item.quantity),
+                                                             price=float(item.startPrice), disclosed_quantity=0, trigger_price=0, validity="GFD", variety="REGULAR", tag="original")
                             time.sleep(2)
                             
                             if(item.instrumenttype == 'Normal'):
@@ -180,8 +180,8 @@ def backgroundTask():
                             item.initialOrderType = "SELL"
                             item.save()
                         else:
-                            outputQuery = client.place_order(order_type=item.order_type, instrument_token=item.instrument_token, transaction_type="BUY", quantity=item.quantity,
-                                                             price=item.equivalentOrderPrice, disclosed_quantity=0, trigger_price=0, validity="GFD", variety="REGULAR", tag="equivalent")
+                            outputQuery = client.place_order(order_type=item.order_type, instrument_token=int(item.instrument_token), transaction_type="BUY", quantity=int(item.quantity),
+                                                             price=float(item.equivalentOrderPrice), disclosed_quantity=0, trigger_price=0, validity="GFD", variety="REGULAR", tag="equivalent")
                             time.sleep(2)
                             
                             if(item.instrumenttype == 'Normal'):
@@ -201,8 +201,10 @@ def backgroundTask():
 
 def loginUser(request):
 
-    # queue = get_queue('default')
-    # job = queue.enqueue_at(datetime(2020, 10, 10), backgroundTask())
+    # backgroundTask();
+
+    queue = get_queue('default')
+    job = queue.enqueue_at(datetime(2020, 10, 10), backgroundTask())
     
     
     
@@ -212,7 +214,7 @@ def loginUser(request):
     userId = 'PAR97_56'
     consumerKey = 'Z2wfl8frw78RnUvnO5sNT3C2eEca'
     accessToken = '17f745f8-577e-368f-b76e-c0343fbb43e2'
-    accessCode = "2148"
+    accessCode = "4315"
     app_id = "efe683d5-2f91-4649-9bc9-0ae0547d849a"
 
     client = ks_api.KSTradeApi(access_token=accessToken, userid=userId,
