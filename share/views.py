@@ -63,7 +63,7 @@ def runScalping(request):
         userId = 'PAR97_56'
         consumerKey = 'Z2wfl8frw78RnUvnO5sNT3C2eEca'
         accessToken = '17f745f8-577e-368f-b76e-c0343fbb43e2'
-        accessCode = "4315"
+        accessCode = "7881"
         app_id = "efe683d5-2f91-4649-9bc9-0ae0547d849a"
     
         client = ks_api.KSTradeApi(access_token=accessToken, userid=userId,
@@ -108,12 +108,12 @@ def runScalping(request):
         if scalipingOrder[0].orderType == 'Buy':
             # for buy type order
             initialOrderType = "BUY"
-            steps = scalipingOrder[0].steps
-            entryDiff = scalipingOrder[0].entryDiff
-            exitDiff = scalipingOrder[0].exitDiff
-            startPrice = scalipingOrder[0].startPrice
-            instrument_token = scalipingOrder[0].instrumentToken
-            lotQuantity = scalipingOrder[0].lotQuantity
+            steps = int(scalipingOrder[0].steps)
+            entryDiff = float(scalipingOrder[0].entryDiff)
+            exitDiff = float(scalipingOrder[0].exitDiff)
+            startPrice = float(scalipingOrder[0].startPrice)
+            instrument_token = int(scalipingOrder[0].instrumentToken)
+            lotQuantity = int(scalipingOrder[0].lotQuantity)
             # Place an order
             orderHistory = []
             for x in range(steps):
@@ -128,8 +128,6 @@ def runScalping(request):
                     orderhistoryvariable = outputQuery["Success"]['NSE-FX']
 
                 equivalentOrderPrice = startPrice + exitDiff
-                orderHistory.append(orderHistoryModel(instrument_token, equivalentOrderPrice, "N",
-                                lotQuantity, orderhistoryvariable['orderId'], 'pending', initialOrderType, startPrice))
         
                 orderHistory = OrderHistory(scalpingOrderid=requestData['orderid'], instrument_token=instrument_token, equivalentOrderPrice=equivalentOrderPrice, order_type="N",
                                             quantity=lotQuantity, order_id=orderhistoryvariable['orderId'], order_status='pending', initialOrderType=initialOrderType, startPrice=startPrice, instrumenttype=scalipingOrder[0].instrumenttype)
@@ -137,7 +135,6 @@ def runScalping(request):
         
                 startPrice = startPrice - entryDiff
 
-        backgroundTask()
     return HttpResponse("Hello, world. You're at the polls index.")
 
 
@@ -212,7 +209,7 @@ def loginUser(request):
     userId = 'PAR97_56'
     consumerKey = 'Z2wfl8frw78RnUvnO5sNT3C2eEca'
     accessToken = '17f745f8-577e-368f-b76e-c0343fbb43e2'
-    accessCode = "4315"
+    accessCode = "7881"
     app_id = "efe683d5-2f91-4649-9bc9-0ae0547d849a"
 
     client = ks_api.KSTradeApi(access_token=accessToken, userid=userId,
