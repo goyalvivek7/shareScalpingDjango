@@ -49,29 +49,19 @@ class orderHistoryModel:
 
 
 def runScalping(request):
-
-
     requestData = request.POST
-
-    print(requestData['orderid'])
-
     scalipingOrder = ScalpingOrder.objects.filter(id=requestData['orderid'])
-    print(scalipingOrder[0].orderType)
 
     if scalipingOrder.count() > 0:
-
         userId = 'PAR97_56'
         consumerKey = 'Z2wfl8frw78RnUvnO5sNT3C2eEca'
         accessToken = '17f745f8-577e-368f-b76e-c0343fbb43e2'
         accessCode = "7881"
         app_id = "efe683d5-2f91-4649-9bc9-0ae0547d849a"
-    
         client = ks_api.KSTradeApi(access_token=accessToken, userid=userId,
                                    consumer_key=consumerKey, ip="127.0.0.1", app_id=app_id)
         client.login(password="march@2022")
         client.session_2fa(access_code=accessCode)
-    
-        
     
         if scalipingOrder[0].orderType == 'Sell':
             # for sell type order
@@ -137,6 +127,17 @@ def runScalping(request):
 
     return HttpResponse("Hello, world. You're at the polls index.")
 
+def cancelOrder(request):
+    requestData = request.POST
+    OrderHistory.objects.filter(scalpingOrderid=requestData['orderid']).delete()
+    scalipingOrders = ScalpingOrder.objects.get(id=requestData['orderid'])
+    scalipingOrders.status = 'stop'
+    scalipingOrders.save()
+   
+    return HttpResponse("Hello, world. You're at the polls index.")
+    
+        
+    
 
 
 def loginUser(request):

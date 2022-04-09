@@ -8,5 +8,6 @@ urlpatterns = [
     path('dashboard',views.dashboardView),
     path('addNewScalping',views.addNewScalping),
     path('addScalping',views.addScalping),
-    path('runScalping',views.runScalping)
+    path('runScalping',views.runScalping),
+    path('stopscalping',views.cancelOrder),
 ]
