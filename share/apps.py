@@ -20,19 +20,23 @@ class backgroundTask():
         
         from django.apps import AppConfig
         from share.models import OrderHistory
+        from share.models import User
         from ks_api_client import ks_api
 
         
+        userData = User.objects.all()
+        user = userData[0]
     
-        userId = 'PAR97_56'
-        consumerKey = 'Z2wfl8frw78RnUvnO5sNT3C2eEca'
-        accessToken = '17f745f8-577e-368f-b76e-c0343fbb43e2'
-        accessCode = "7881"
-        app_id = "efe683d5-2f91-4649-9bc9-0ae0547d849a"
+        userId = user.user_id
+        consumerKey = user.consumer_key
+        accessToken = user.access_token
+        accessCode = user.accessCode
+        app_id = user.app_id
+        passwords = user.password
     
         client = ks_api.KSTradeApi(access_token=accessToken, userid=userId,
                                    consumer_key=consumerKey, ip="127.0.0.1", app_id=app_id)
-        client.login(password="march@2022")
+        client.login(password=passwords)
         client.session_2fa(access_code=accessCode)
     
         while True:

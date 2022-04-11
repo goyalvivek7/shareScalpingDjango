@@ -22,14 +22,30 @@ import threading
 
 def index(request):
 
-    context = {"login": "login"}
-    return render(request, 'share/login.html', context)
+    try:
+        var = request.session['user_id'];
+        context = {"login": "login"}
+        return render(request, 'share/dashboard.html', context)
+        
+    except:
+        scalpingOrder = ScalpingOrder.objects.all()
+        context = {
+            "scalpingOrder": scalpingOrder}
+        return render(request, 'share/login.html', context)
+    
+
+
 def dashboardView(request):
-    print(request.session['user_id'])
-    scalpingOrder = ScalpingOrder.objects.all()
-    context = {
-        "scalpingOrder": scalpingOrder}
-    return render(request, 'share/dashboard.html', context)
+    try :
+        var = request.session['user_id'];
+        scalpingOrder = ScalpingOrder.objects.all()
+        context = {
+            "scalpingOrder": scalpingOrder}
+        return render(request, 'share/dashboard.html', context)
+    except:
+        return render(request, 'share/login.html', context)
+
+
 def addNewScalping(request):
     context = {"dashboard": "dashboard"}
     return render(request, 'share/addNewScalping.html', context)
@@ -52,15 +68,21 @@ def runScalping(request):
     requestData = request.POST
     scalipingOrder = ScalpingOrder.objects.filter(id=requestData['orderid'])
 
+
     if scalipingOrder.count() > 0:
-        userId = 'PAR97_56'
-        consumerKey = 'Z2wfl8frw78RnUvnO5sNT3C2eEca'
-        accessToken = '17f745f8-577e-368f-b76e-c0343fbb43e2'
-        accessCode = "7881"
-        app_id = "efe683d5-2f91-4649-9bc9-0ae0547d849a"
+        userData = User.objects.all()
+        user = userData[0]
+    
+        userId = user.user_id
+        consumerKey = user.consumer_key
+        accessToken = user.access_token
+        accessCode = user.accessCode
+        app_id = user.app_id
+        passwords = user.password
+
         client = ks_api.KSTradeApi(access_token=accessToken, userid=userId,
                                    consumer_key=consumerKey, ip="127.0.0.1", app_id=app_id)
-        client.login(password="march@2022")
+        client.login(password=passwords)
         client.session_2fa(access_code=accessCode)
     
         if scalipingOrder[0].orderType == 'Sell':
@@ -143,19 +165,20 @@ def cancelOrder(request):
 def loginUser(request):
 
     requestData = request.POST
-    userId = 'PAR97_56'
-    consumerKey = 'Z2wfl8frw78RnUvnO5sNT3C2eEca'
-    accessToken = '17f745f8-577e-368f-b76e-c0343fbb43e2'
-    accessCode = "7881"
-    app_id = "efe683d5-2f91-4649-9bc9-0ae0547d849a"
+    userId = requestData['userId']
+    consumerKey = requestData['consumerKey']
+    accessToken = requestData['accessToken']
+    accessCode = requestData['accessCode']
+    app_id = requestData['appId']
+    passwords = requestData['password']
 
     client = ks_api.KSTradeApi(access_token=accessToken, userid=userId,
                                consumer_key=consumerKey, ip="127.0.0.1", app_id=app_id)
-    client.login(password="march@2022")
+    client.login(password=passwords)
     client.session_2fa(access_code = accessCode)
 
     user = User(user_id=userId, consumer_key=consumerKey,access_token=accessToken,
-                accessCode=accessCode)
+                accessCode=accessCode,app_id = app_id ,password = passwords)
     user.save()
     request.session['user_id'] = user.id
     return HttpResponse("Hello, world. You're at the polls index.")

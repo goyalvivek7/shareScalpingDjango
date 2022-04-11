@@ -5,10 +5,12 @@ class User(models.Model):
     consumer_key = models.CharField(max_length=200)
     access_token = models.CharField(max_length=200)
     accessCode = models.TextField()
+    app_id = models.CharField(max_length=200)
+    password = models.CharField(max_length=200)
 
 class ScalpingOrder(models.Model):
-    userid = models.CharField(max_length=200 , default='00000000000')
-    currentdate = models.CharField(max_length=200 , default='0000000')
+    userid = models.CharField(max_length=200)
+    currentdate = models.CharField(max_length=200)
     instrumentToken = models.CharField(max_length=200)
     orderType = models.CharField(max_length=200)
     lotQuantity = models.CharField(max_length=200)
