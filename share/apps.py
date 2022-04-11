@@ -61,6 +61,9 @@ class backgroundTask():
          
                                      if(item.instrumenttype == 'Cash'):
                                          orderhistoryvariable = outputQuery["Success"]['NSE-FX']
+
+                                     if(item.instrumenttype == 'Fno'):
+                                         orderhistoryvariable = outputQuery["Success"]['NSE']    
          
                                      item.order_id = orderhistoryvariable['orderId']
                                      item.initialOrderType = "SELL"
@@ -75,6 +78,9 @@ class backgroundTask():
          
                                      if(item.instrumenttype == 'Cash'):
                                          orderhistoryvariable = outputQuery["Success"]['NSE-FX']
+
+                                     if(item.instrumenttype == 'Fno'):
+                                         orderhistoryvariable = outputQuery["Success"]['NSE']     
          
                                      item.order_id = orderhistoryvariable['orderId']
                                      item.initialOrderType = "BUY"

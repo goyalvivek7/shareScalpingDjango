@@ -105,6 +105,9 @@ def runScalping(request):
                 if(scalipingOrder[0].instrumenttype == 'Cash'):
                     orderhistoryvariable = outputQuery["Success"]['NSE-FX']
 
+                if(scalipingOrder[0].instrumenttype == 'Fno'):
+                    orderhistoryvariable = outputQuery["Success"]['NSE']
+
                 equivalentOrderPrice = startPrice - exitDiff
                 
                 orderHistory = OrderHistory(scalpingOrderid=requestData['orderid'], instrument_token=instrument_token, equivalentOrderPrice=equivalentOrderPrice, order_type="N",
@@ -137,6 +140,9 @@ def runScalping(request):
 
                 if(scalipingOrder[0].instrumenttype == 'Cash'):
                     orderhistoryvariable = outputQuery["Success"]['NSE-FX']
+
+                if(scalipingOrder[0].instrumenttype == 'Fno'):
+                    orderhistoryvariable = outputQuery["Success"]['NSE']    
 
                 equivalentOrderPrice = startPrice + exitDiff
         
@@ -196,8 +202,9 @@ def addScalping(request):
     entryDiff = requestData.get('entryDiff')
     exitDiff = requestData.get('exitDiff')
     startPrice = requestData.get('startPrice')
-    instrumenttype = requestData.get('instrumenttype');
+    instrumenttype = requestData.get('instrumenttype')
+    intrumentTag = requestData.get('instrumentName')
     scaplingOrder = ScalpingOrder(userid=request.session['user_id'], currentdate=currentdate, instrumentToken=instrumentToken, orderType=orderType,
-                                  lotQuantity=lotQuantity, steps=steps, entryDiff=entryDiff, exitDiff=exitDiff, startPrice=startPrice ,instrumenttype=instrumenttype)
+                                  lotQuantity=lotQuantity, steps=steps, entryDiff=entryDiff, exitDiff=exitDiff, startPrice=startPrice ,instrumenttype=instrumenttype,instrumentTag=intrumentTag)
     scaplingOrder.save()
     return HttpResponse("Hello, world. You're at the polls index.")

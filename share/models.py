@@ -20,6 +20,7 @@ class ScalpingOrder(models.Model):
     startPrice = models.CharField(max_length=200)
     status = models.CharField(max_length=200 , default='stop')
     instrumenttype = models.CharField(max_length=200 , default='')
+    instrumentTag = models.CharField(max_length=200 , default='')
 
 class OrderHistory(models.Model):
     scalpingOrderid = models.CharField(max_length=200)

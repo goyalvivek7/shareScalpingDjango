@@ -28,14 +28,13 @@
       <table class="table table_des">
         <thead class="thead-dark">
           <tr>
-            <th scope="col">Date <img src=" {% static 'images/line.png' %} "></th>
+            <th scope="col">Tag <img src=" {% static 'images/line.png' %} "></th>
             <th scope="col">Type <img src=" {% static 'images/line.png' %} "></th>
             <th scope="col">Steps <img src=" {% static 'images/line.png' %} "></th>
             <th scope="col">Instrument No. <img src=" {% static 'images/line2.png' %} "></th>
             <th scope="col">Entry diff.. <img src=" {% static 'images/line2.png' %} "></th>
             <th scope="col">Exit diff.. <img src=" {% static 'images/line.png' %} "></th>
             <th scope="col">Start price <img src=" {% static 'images/line.png' %} "></th>
-            <th scope="col">Last price <img src=" {% static 'images/line.png' %} "></th>
             <th scope="col">Actions </th>
           </tr>
         </thead>
@@ -43,14 +42,13 @@
 
           {% for order in scalpingOrder %}
           <tr class="buy_se">
-            <th scope="row">{{ order.currentdate }}</th>
+            <th scope="row">{{ order.instrumentTag }}</th>
             <td>{{ order.orderType }}</td>
-            <td><img src=" {% static 'images/Vector.png' %} ">{{ order.steps }}</td>
+            <td>{{ order.steps }}</td>
             <td>{{ order.instrumentToken }}</td>
             <td><img src=" {% static 'images/Vector.png' %} ">{{ order.entryDiff }}</td>
             <td><img src=" {% static 'images/Vector.png' %} ">{{ order.exitDiff }}</td>
             <td><img src=" {% static 'images/Vector.png' %} ">{{ order.startPrice }}</td>
-            <td><img src=" {% static 'images/Vector.png' %} ">1,200</td>
             <td>
                 <p class="action_btn"><a href="view.html"><img class="icon_view" src=" {% static 'images/carbon_view.png' %}"> <img class="hover_view" src=" {% static 'images/carbon_view2.png' %}"></a> 
                 <a href="#"><img class="icon_view" src=" {% static 'images/ant-design_edit-outlined.png' %}"><img class="hover_view" src=" {% static 'images/Vector2.png' %}"> </a>
@@ -107,6 +105,7 @@
           data: { orderid: order,'csrfmiddlewaretoken':"{{ csrf_token }}" },
           success: function (data) {
                console.log(data);
+               window.location.reload();
           },
       }).done(function () {
           // alert('finished extracting data');;
