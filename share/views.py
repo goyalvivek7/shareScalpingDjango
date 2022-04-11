@@ -68,7 +68,6 @@ def runScalping(request):
     requestData = request.POST
     scalipingOrder = ScalpingOrder.objects.filter(id=requestData['orderid'])
 
-
     if scalipingOrder.count() > 0:
         userData = User.objects.all()
         user = userData[0]
@@ -146,7 +145,10 @@ def runScalping(request):
                 orderHistory.save()   
         
                 startPrice = startPrice - entryDiff
-
+    
+    newScalpOrder = ScalpingOrder.objects.get(id=requestData['orderid'])
+    newScalpOrder.status = 'active'
+    newScalpOrder.save()
     return HttpResponse("Hello, world. You're at the polls index.")
 
 def cancelOrder(request):
