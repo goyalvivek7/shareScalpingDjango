@@ -26,18 +26,19 @@ class backgroundTask():
         
         userData = User.objects.all()
         user = userData[0]
-    
+         
         userId = user.user_id
         consumerKey = user.consumer_key
         accessToken = user.access_token
         accessCode = user.accessCode
         app_id = user.app_id
         passwords = user.password
-    
+         
         client = ks_api.KSTradeApi(access_token=accessToken, userid=userId,
-                                   consumer_key=consumerKey, ip="127.0.0.1", app_id=app_id)
+                                        consumer_key=consumerKey, ip="127.0.0.1", app_id=app_id)
         client.login(password=passwords)
         client.session_2fa(access_code=accessCode)
+        
     
         while True:
             try:
@@ -83,7 +84,7 @@ class backgroundTask():
                 time.sleep(1)
                 client = ks_api.KSTradeApi(access_token=accessToken, userid=userId,
                                    consumer_key=consumerKey, ip="127.0.0.1", app_id=app_id)
-                client.login(password="march@2022")
+                client.login(password=passwords)
                 client.session_2fa(access_code=accessCode)
             # print(outputOrder)
         print('loop ends')
