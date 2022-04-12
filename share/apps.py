@@ -26,7 +26,6 @@ class backgroundTask():
         
         userData = User.objects.all()
         if userData.count() > 0:
-            user = userData[0]
             backgroundProcess = BackgroundProcess.objects.all()
             process = backgroundProcess[0]
             process.status = 'running'
@@ -41,7 +40,7 @@ class backgroundTask():
                 process = BackgroundProcess(status = 'stop')
                 process.save()
 
-    
+        user = userData[0]
         userId = user.user_id
         consumerKey = user.consumer_key
         accessToken = user.access_token
