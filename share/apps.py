@@ -22,6 +22,7 @@ class backgroundTask():
         from share.models import User
         from ks_api_client import ks_api
         from share.models import BackgroundProcess
+        from share.models import ScalpingOrder
 
         
         userData = User.objects.all()
@@ -64,44 +65,85 @@ class backgroundTask():
                      outputOrder = client.order_report()
                      time.sleep(1)
                      for item in orderHistory:
-                         if item.order_status == 'pending':
-                             for historyOrder in outputOrder['success']:
-                                 if int(item.order_id) == historyOrder['orderId'] and historyOrder['status'] == 'TRAD':
-                                     print('submit order'+str(item.order_id))
-                                     if item.initialOrderType == 'BUY':
-                                         outputQuery = client.place_order(order_type=item.order_type, instrument_token=int(item.instrument_token), transaction_type="SELL", quantity=int(item.quantity),
-                                                                          price=float(item.startPrice), disclosed_quantity=0, trigger_price=0, validity="GFD", variety="REGULAR", tag="original")
-                                         time.sleep(2)
-                                         
-                                         if(item.instrumenttype == 'Normal'):
-                                             orderhistoryvariable = outputQuery["Success"]['NSE']
-             
-                                         if(item.instrumenttype == 'Cash'):
-                                             orderhistoryvariable = outputQuery["Success"]['NSE-FX']
-    
-                                         if(item.instrumenttype == 'Fno'):
-                                             orderhistoryvariable = outputQuery["Success"]['NSE']    
-             
-                                         item.order_id = orderhistoryvariable['orderId']
-                                         item.initialOrderType = "SELL"
-                                         item.save()
-                                     else:
-                                         outputQuery = client.place_order(order_type=item.order_type, instrument_token=int(item.instrument_token), transaction_type="BUY", quantity=int(item.quantity),
-                                                                          price=float(item.equivalentOrderPrice), disclosed_quantity=0, trigger_price=0, validity="GFD", variety="REGULAR", tag="equivalent")
-                                         time.sleep(2)
-                                         
-                                         if(item.instrumenttype == 'Normal'):
-                                             orderhistoryvariable = outputQuery["Success"]['NSE']
-             
-                                         if(item.instrumenttype == 'Cash'):
-                                             orderhistoryvariable = outputQuery["Success"]['NSE-FX']
-    
-                                         if(item.instrumenttype == 'Fno'):
-                                             orderhistoryvariable = outputQuery["Success"]['NSE']     
-             
-                                         item.order_id = orderhistoryvariable['orderId']
-                                         item.initialOrderType = "BUY"
-                                         item.save()
+                         scalipingOrder = ScalpingOrder.objects.filter(id=item.scalpingOrderid)
+                         if scalipingOrder[0].orderType == 'Sell':
+                              if item.order_status == 'pending':
+                                  for historyOrder in outputOrder['success']:
+                                      if int(item.order_id) == historyOrder['orderId'] and historyOrder['status'] == 'TRAD':
+                                          print('submit order'+str(item.order_id))
+                                          if item.initialOrderType == 'BUY':
+                                              outputQuery = client.place_order(order_type=item.order_type, instrument_token=int(item.instrument_token), transaction_type="SELL", quantity=int(item.quantity),
+                                                                               price=float(item.startPrice), disclosed_quantity=0, trigger_price=0, validity="GFD", variety="REGULAR", tag="original")
+                                              time.sleep(2)
+                                              
+                                              if(item.instrumenttype == 'Normal'):
+                                                  orderhistoryvariable = outputQuery["Success"]['NSE']
+                  
+                                              if(item.instrumenttype == 'Cash'):
+                                                  orderhistoryvariable = outputQuery["Success"]['NSE-FX']
+         
+                                              if(item.instrumenttype == 'Fno'):
+                                                  orderhistoryvariable = outputQuery["Success"]['NSE']    
+                  
+                                              item.order_id = orderhistoryvariable['orderId']
+                                              item.initialOrderType = "SELL"
+                                              item.save()
+                                          else:
+                                              outputQuery = client.place_order(order_type=item.order_type, instrument_token=int(item.instrument_token), transaction_type="BUY", quantity=int(item.quantity),
+                                                                               price=float(item.equivalentOrderPrice), disclosed_quantity=0, trigger_price=0, validity="GFD", variety="REGULAR", tag="equivalent")
+                                              time.sleep(2)
+                                              
+                                              if(item.instrumenttype == 'Normal'):
+                                                  orderhistoryvariable = outputQuery["Success"]['NSE']
+                  
+                                              if(item.instrumenttype == 'Cash'):
+                                                  orderhistoryvariable = outputQuery["Success"]['NSE-FX']
+         
+                                              if(item.instrumenttype == 'Fno'):
+                                                  orderhistoryvariable = outputQuery["Success"]['NSE']     
+                  
+                                              item.order_id = orderhistoryvariable['orderId']
+                                              item.initialOrderType = "BUY"
+                                              item.save()
+                         if scalipingOrder[0].orderType == 'Buy':  
+                              if item.order_status == 'pending':
+                                         for historyOrder in outputOrder['success']:
+                                             if int(item.order_id) == historyOrder['orderId'] and historyOrder['status'] == 'TRAD':
+                                                 print('submit order'+str(item.order_id))
+                                                 if item.initialOrderType == 'SELL':
+                                                     outputQuery = client.place_order(order_type=item.order_type, instrument_token=int(item.instrument_token), transaction_type="BUY", quantity=int(item.quantity),
+                                                                                      price=float(item.startPrice), disclosed_quantity=0, trigger_price=0, validity="GFD", variety="REGULAR", tag="original")
+                                                     time.sleep(2)
+                                                     
+                                                     if(item.instrumenttype == 'Normal'):
+                                                         orderhistoryvariable = outputQuery["Success"]['NSE']
+                         
+                                                     if(item.instrumenttype == 'Cash'):
+                                                         orderhistoryvariable = outputQuery["Success"]['NSE-FX']
+                
+                                                     if(item.instrumenttype == 'Fno'):
+                                                         orderhistoryvariable = outputQuery["Success"]['NSE']    
+                         
+                                                     item.order_id = orderhistoryvariable['orderId']
+                                                     item.initialOrderType = "BUY"
+                                                     item.save()
+                                                 else:
+                                                     outputQuery = client.place_order(order_type=item.order_type, instrument_token=int(item.instrument_token), transaction_type="SELL", quantity=int(item.quantity),
+                                                                                      price=float(item.equivalentOrderPrice), disclosed_quantity=0, trigger_price=0, validity="GFD", variety="REGULAR", tag="equivalent")
+                                                     time.sleep(2)
+                                                     
+                                                     if(item.instrumenttype == 'Normal'):
+                                                         orderhistoryvariable = outputQuery["Success"]['NSE']
+                         
+                                                     if(item.instrumenttype == 'Cash'):
+                                                         orderhistoryvariable = outputQuery["Success"]['NSE-FX']
+                
+                                                     if(item.instrumenttype == 'Fno'):
+                                                         orderhistoryvariable = outputQuery["Success"]['NSE']     
+                         
+                                                     item.order_id = orderhistoryvariable['orderId']
+                                                     item.initialOrderType = "SELL"
+                                                     item.save()            
                 except:
                     print('error')
                     time.sleep(1)
