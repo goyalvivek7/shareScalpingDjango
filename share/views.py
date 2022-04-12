@@ -9,6 +9,7 @@ from django.shortcuts import redirect
 from share.models import User
 from share.models import OrderHistory
 from share.models import ScalpingOrder
+from share.models import BackgroundProcess
 from django.contrib import messages
 from datetime import datetime
 import time
@@ -67,6 +68,11 @@ class orderHistoryModel:
 def runScalping(request):
     requestData = request.POST
     scalipingOrder = ScalpingOrder.objects.filter(id=requestData['orderid'])
+
+    backgroundProcess = BackgroundProcess.objects.all()
+    process = backgroundProcess[0]
+    process.status = 'stop'
+    process.save()
 
     if scalipingOrder.count() > 0:
         userData = User.objects.all()
@@ -151,6 +157,11 @@ def runScalping(request):
                 orderHistory.save()   
         
                 startPrice = startPrice - entryDiff
+
+    backgroundProcess = BackgroundProcess.objects.all()
+    process = backgroundProcess[0]
+    process.status = 'running'
+    process.save()            
     
     newScalpOrder = ScalpingOrder.objects.get(id=requestData['orderid'])
     newScalpOrder.status = 'active'
@@ -188,6 +199,12 @@ def loginUser(request):
     user = User(user_id=userId, consumer_key=consumerKey,access_token=accessToken,
                 accessCode=accessCode,app_id = app_id ,password = passwords)
     user.save()
+
+    backgroundProcess = BackgroundProcess.objects.all()
+    process = backgroundProcess[0]
+    process.status = 'running'
+    process.save()
+
     request.session['user_id'] = user.id
     return HttpResponse("Hello, world. You're at the polls index.")
 

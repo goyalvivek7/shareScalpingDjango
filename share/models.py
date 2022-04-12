@@ -34,4 +34,7 @@ class OrderHistory(models.Model):
     startPrice = models.CharField(max_length=200)
     instrumenttype = models.CharField(max_length=200 , default='')
 
+class BackgroundProcess(models.Model):
+    status = models.CharField(max_length=200 , default='stop')    
+
 
