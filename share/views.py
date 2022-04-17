@@ -10,6 +10,7 @@ from share.models import User
 from share.models import OrderHistory
 from share.models import ScalpingOrder
 from share.models import BackgroundProcess
+from share.models import Favourite
 from django.contrib import messages
 from datetime import datetime
 import time
@@ -39,16 +40,20 @@ def index(request):
 def dashboardView(request):
     try :
         var = request.session['user_id'];
+        loggedInUser = request.session['user_id'];
+        UserData = User.objects.get(id=loggedInUser)
         scalpingOrder = ScalpingOrder.objects.all()
         context = {
-            "scalpingOrder": scalpingOrder}
+            "scalpingOrder": scalpingOrder,"loggedInUser":UserData.user_id}
         return render(request, 'share/dashboard.html', context)
     except:
+        context = {}
         return render(request, 'share/login.html', context)
 
 
 def addNewScalping(request):
-    context = {"dashboard": "dashboard"}
+    fav = Favourite.objects.all()
+    context = {"addnew": "addnew","fav":fav}
     return render(request, 'share/addNewScalping.html', context)
 
 
@@ -63,6 +68,15 @@ class orderHistoryModel:
         self.order_status = order_status
         self.initialOrderType = initialOrderType
         self.startPrice = startPrice
+
+
+def addToFav(request):
+    requestData = request.POST
+    instrumentToken = requestData['instrumentToken']
+    fav = Favourite(instrumentToken=instrumentToken)
+    fav.save()
+    return HttpResponse("Hello, world. You're at the polls index.")
+   
 
 
 def runScalping(request):

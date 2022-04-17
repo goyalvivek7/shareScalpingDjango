@@ -35,6 +35,9 @@ class OrderHistory(models.Model):
     instrumenttype = models.CharField(max_length=200 , default='')
 
 class BackgroundProcess(models.Model):
-    status = models.CharField(max_length=200 , default='stop')    
+    status = models.CharField(max_length=200 , default='stop')   
+
+class Favourite(models.Model):
+    instrumentToken = models.CharField(max_length=200)
 
 

@@ -234,6 +234,8 @@ input[type="button"]:hover, input[type="submit"]:hover, input[type="button"]:foc
 }
 
 .inst_btn{position:relative;}
+nav ul{height:200px; width:18%;}
+nav ul{overflow:hidden; overflow-y:scroll;}
 .inst_btn img{position:absolute; right: -57px;
     top: 29px; }
 	.note_section span{font-weight: normal;

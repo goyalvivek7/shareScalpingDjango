@@ -11,6 +11,11 @@
 <link href=" {% static '/css/style.css' %} " rel="stylesheet" type="text/css" defer="">
 </head>
 
+<style>
+  .listView
+  {height:200px; width:18%;overflow:hidden; overflow-y:scroll;
+  }
+</style>
 
 <body>
 <div class="scarlping-section">
@@ -101,6 +106,9 @@
             </div>
         
           </div>
+
+
+         
           <div class="col-sm-6">
 
             <div class="form-group inst_btn">
@@ -111,6 +119,14 @@
               <input id="instrument_token" class="form-control" type="text" ><img  onclick="addInstrument();" src=" {% static 'images/Group 72.png' %} ">
 
             </div>
+           
+          </div>
+          <div><img  onclick="addToFav();" src=" {% static 'images/heart.png' %} ">
+            <ul style="height:200px; width:18%;overflow:hidden; overflow-y:scroll;">
+              {% for item in fav %}
+              <li onclick="setInstrument('{{item.instrumentToken}}');">{{ item.instrumentToken }}</li>
+              {% endfor %}
+          </ul>
           </div>
 
           <div class="col-sm-6">
@@ -177,6 +193,42 @@
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<script>
+  function setInstrument(instruemntToken){
+    var instrumentToken = document.getElementById("instrument_token").value;
+    document.getElementById("instrument_token").value = instruemntToken;
+  }
+</script>
+
+<script>
+  function addToFav(){
+    var instrumentToken = document.getElementById("instrument_token").value;
+    if(instrumentToken == "")
+    {
+      alert("Please select instrument token");
+      return;
+    }
+    else
+    {
+      $.ajax({
+        url: "addToFav",
+        type: 'POST',
+        context: document.body,
+        data: {instrumentToken: instrumentToken,'csrfmiddlewaretoken':"{{ csrf_token }}" },
+        success: function (data) {
+             console.log(data);
+             
+              
+              alert("Added to favourite");
+              
+        },
+    }).done(function () {
+        // alert('finished extracting data');;
+    });
+    }
+  }
+</script>
 
 
 <script>
