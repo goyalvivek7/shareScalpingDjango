@@ -20,7 +20,7 @@
       <div class="table_text_he">
         <div class="row">
           <div class="col-6 text-left m-auto"><h5 class="tittletwo">Already Running Scalping</h5> </div>
-          <div class="col-6 text-right"><a class="btnone" href="http://43.204.22.205:8000/share/addNewScalping">Add New Scarlping</a></div>
+          <div class="col-6 text-right"><a class="btnone" href="http://127.0.0.1:8000/share/addNewScalping">Add New Scarlping</a></div>
         </div>
       </div>
       <div class="table_inner">
@@ -50,7 +50,7 @@
             <td><img src=" {% static 'images/Vector.png' %} ">{{ order.startPrice }}</td>
             <td>
                 <p class="action_btn"><a href="view.html"><img class="icon_view" src=" {% static 'images/carbon_view.png' %}"> <img class="hover_view" src=" {% static 'images/carbon_view2.png' %}"></a> 
-                <a href="#"><img class="icon_view" src=" {% static 'images/ant-design_edit-outlined.png' %}"><img class="hover_view" src=" {% static 'images/Vector2.png' %}"> </a>
+                <a href="#"><img onclick="deleteScalping('{{order.id}}');" class="icon_view" src=" {% static 'images/delete.png' %}"><img onclick="deleteScalping('{{order.id}}');" class="hover_view" src=" {% static 'images/delete.png' %}"> </a>
                 {% if order.status == 'stop' %}
                      <a href="#"><img onclick="runScalping('{{order.id}}','{{order.status}}');" class="icon_view" src=" {% static 'images/power-button.png' %}"> <img onclick="runScalping('{{order.id}}','{{order.status}}');" class="hover_view" src=" {% static 'images/power-button.png' %}"></a>
                 {% else %}
@@ -74,6 +74,30 @@
 
 
 </div>
+
+<script>
+  function deleteScalping(order){
+
+   
+      console.log('clicked',order);
+      $.ajax({
+          url: "deleteScalping",
+          type: 'POST',
+          context: document.body,
+          data: { orderid: order,'csrfmiddlewaretoken':"{{ csrf_token }}" },
+          success: function (data) {
+               console.log(data);
+               window.location.reload();
+          },
+      }).done(function () {
+          // alert('finished extracting data');;
+      });
+    
+    
+
+   
+  }
+</script>
 
 <script>
   function runScalping(order,status){

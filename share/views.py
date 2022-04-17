@@ -57,6 +57,17 @@ def addNewScalping(request):
     return render(request, 'share/addNewScalping.html', context)
 
 
+def deleteScalping(request):
+    requestData = request.POST
+    scalipingOrder = ScalpingOrder.objects.filter(id=requestData['orderid'])  
+    scalipingOrder.delete()
+    orderHistroy = OrderHistory.objects.filter(scalpingOrderid=requestData['orderid'])  
+    orderHistroy.delete()
+    return HttpResponse("Hello, world. You're at the polls index.")    
+    
+
+
+
 global client
 class orderHistoryModel:
     def __init__(self, instrument_token, equivalentOrderPrice, order_type, quantity, order_id, order_status, initialOrderType, startPrice):
