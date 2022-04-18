@@ -41,7 +41,7 @@
   </div>
 
   <div class="form-group">
-    <input class="form-control" id="accessCode" type="text" placeholder="Access Code" value="6989">
+    <input class="form-control" id="accessCode" type="text" placeholder="Access Code" value="7644">
   </div>
 
   <div class="form-group">
@@ -97,7 +97,7 @@
             'csrfmiddlewaretoken':"{{ csrf_token }}" },
           success: function (data) {
                console.log(data);
-               location.replace('http://127.0.0.1:8000/share/dashboard');
+               location.replace('http://43.204.22.205:8000/share/dashboard');
           },
       }).done(function () {
           // alert('finished extracting data');;
