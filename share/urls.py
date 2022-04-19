@@ -12,4 +12,6 @@ urlpatterns = [
     path('stopscalping',views.cancelOrder),
     path('addToFav',views.addToFav),
     path('deleteScalping',views.deleteScalping),
+    path('editScalping',views.editScalping),
+    path('openEditScalping',views.openEditScalping),
 ]

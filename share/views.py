@@ -57,6 +57,17 @@ def addNewScalping(request):
     return render(request, 'share/addNewScalping.html', context)
 
 
+def editScalping(request):
+    requestData = request.POST
+    request.session['orderIdForModification'] = requestData['orderid']
+    return HttpResponse("Hello, world. You're at the polls index.")  
+
+def openEditScalping(request):
+    context = {"addnew": "addnew"}
+    return render(request, 'share/editScalping.html', context)
+
+
+
 def deleteScalping(request):
     requestData = request.POST
     scalipingOrder = ScalpingOrder.objects.filter(id=requestData['orderid'])  
