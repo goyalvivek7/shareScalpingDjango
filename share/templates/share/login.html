@@ -75,7 +75,7 @@
           data: { userId: userName.value , consumerKey:password.value, accessToken:pin.value,'csrfmiddlewaretoken':"{{ csrf_token }}" },
           success: function (data) {
                console.log(data);
-               location.replace('http://127.0.0.1:8000/share/dashboard');
+               location.replace('http://43.204.22.205:8000/share/dashboard');
           },
       }).done(function () {
           // alert('finished extracting data');;
