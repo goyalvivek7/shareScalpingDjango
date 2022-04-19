@@ -25,29 +25,17 @@
 <p style="font-weight: 400; font-size: 16px; padding-top: 17px;">Did you forget your password?</p>
 <form>
   <div class="form-group">
-    <input class="form-control" id="userid" type="text" placeholder="User Id" value="RAJEE19970">
+    <input class="form-control" id="userName" type="text" placeholder="User Id">
 
   </div>
   <div class="form-group">
-    <input class="form-control" id="consumerKey" type="text" placeholder="Consumer Key" value="pdRLQ0EOtduAn91p7wdLiqFkxnca">
-  </div>
+    <input class="form-control" id="password" type="password" placeholder="Consumer Key">
 
+  </div>
   <div class="form-group">
-    <input class="form-control" id="appId" type="text" placeholder="App Id" value="99628ce6-d9d0-4161-b12b-10fdf36ac5bf">
-  </div>
+    <input class="form-control" id="pin" type="text" placeholder="Access Token">
 
-  <div class="form-group">
-    <input class="form-control" id="accessToken" type="text" placeholder="Access Token" value="3825657f-4b11-34da-91ef-f3350affb90e">
   </div>
-
-  <div class="form-group">
-    <input class="form-control" id="accessCode" type="text" placeholder="Access Code" value="7644">
-  </div>
-
-  <div class="form-group">
-    <input class="form-control" id="password" type="text" placeholder="Password" value="march@2022">
-  </div>
-
   <div class="form-group">
     <div class="form-check checkbox-theme">
         <input class="form-check-input" type="checkbox" name="remember" id="remember" >
@@ -76,25 +64,15 @@
 <script>
   function login() {
     console.log('login','login');
-    var userid = document.getElementById("userid");
-    var consumerKey = document.getElementById("consumerKey");
-    var accessToken = document.getElementById("accessToken");
-    var accessCode = document.getElementById("accessCode");
+    var userName = document.getElementById("userName");
     var password = document.getElementById("password");
-    var appId = document.getElementById("appId");
-
+    var pin = document.getElementById("pin");
     console.log('password',password.value);
       $.ajax({
           url: "loginUser",
           type: 'POST',
           context: document.body,
-          data: { userId: userid.value , 
-            consumerKey:consumerKey.value, 
-            accessToken:accessToken.value,
-            accessCode:accessCode.value,
-            password:password.value,
-            appId:appId.value,
-            'csrfmiddlewaretoken':"{{ csrf_token }}" },
+          data: { userId: userName.value , consumerKey:password.value, accessToken:pin.value,'csrfmiddlewaretoken':"{{ csrf_token }}" },
           success: function (data) {
                console.log(data);
                location.replace('http://127.0.0.1:8000/share/dashboard');

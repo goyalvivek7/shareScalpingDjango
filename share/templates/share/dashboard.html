@@ -15,12 +15,13 @@
 <div class="dashboard-section">
   <div class="des_header"><h3>Dashboard</h3></div>
 	<div class="container">
-    <div><h5 class="tittletwo">Logged In User : {{ loggedInUser }}</h5> </div>
+    <div><h5 class="tittletwo tittlenewone">Logged In User : {{ loggedInUser }}</h5> </div>
     <div class="des_table">
       <div class="table_text_he">
         <div class="row">
           <div class="col-6 text-left m-auto"><h5 class="tittletwo">Already Running Scalping</h5> </div>
-          <div class="col-6 text-right"><a class="btnone" href="http://127.0.0.1:8000/share/addNewScalping">Add New Scarlping</a></div>
+          <div class="col-6 text-right"><a class="btnone" href="http://127.0.0.1:8000/share/addNewScalping"> <img style="vertical-align: text-bottom;
+            margin-right: 10px;" src=" {% static 'images/Icon ionic-ios-add.png' %} ">Add New Scarlping</a></div>
         </div>
       </div>
       <div class="table_inner">
@@ -49,14 +50,14 @@
             <td><img src=" {% static 'images/Vector.png' %} ">{{ order.exitDiff }}</td>
             <td><img src=" {% static 'images/Vector.png' %} ">{{ order.startPrice }}</td>
             <td>
-                <p class="action_btn"><img onclick="editScalping('{{order.id}}');" class="icon_view" src=" {% static 'images/carbon_view.png' %}"> <img onclick="editScalping('{{order.id}}');" class="hover_view" src=" {% static 'images/carbon_view2.png' %}">
-                <a href="#"><img onclick="deleteScalping('{{order.id}}');" class="icon_view" src=" {% static 'images/delete.png' %}"><img onclick="deleteScalping('{{order.id}}');" class="hover_view" src=" {% static 'images/delete.png' %}"> </a>
+                <p class="action_btn"><img onclick="editScalping('{{order.id}}');" class="icon_view" src=" {% static 'images/ant-design_edit-outlined.png' %}"> <img onclick="editScalping('{{order.id}}');" class="hover_view" src=" {% static 'images/Vector2.png' %}">
+                <a href="#"><img style="    width: 18px;" onclick="deleteScalping('{{order.id}}');" class="icon_view" src=" {% static 'images/delete.png' %}"><img style="    width: 18px;" onclick="deleteScalping('{{order.id}}');" class="hover_view" src=" {% static 'images/deleteone.png' %}"> </a>
                 {% if order.status == 'stop' %}
-                     <a href="#"><img onclick="runScalping('{{order.id}}','{{order.status}}');" class="icon_view" src=" {% static 'images/power-button.png' %}"> <img onclick="runScalping('{{order.id}}','{{order.status}}');" class="hover_view" src=" {% static 'images/power-button.png' %}"></a>
+                     <a href="#"><img onclick="runScalping('{{order.id}}','{{order.status}}');" class="icon_view" src=" {% static 'images/power-buttonone.png' %}"> <img  onclick="runScalping('{{order.id}}','{{order.status}}');" class="hover_view" src=" {% static 'images/power-buttonone.png' %}"></a>
                 {% else %}
                      <a href="#"><img onclick="runScalping('{{order.id}}','{{order.status}}');" class="icon_view" src=" {% static 'images/stop.png' %}"> <img onclick="runScalping('{{order.id}}','{{order.status}}');" class="hover_view" src=" {% static 'images/stop.png' %}"></a> 
                 {% endif %}
-                <a href="#"><img class="icon_view" src=" {% static 'images/Group 89.png' %}"> <img class="hover_view" src=" {% static 'images/Group 93.png' %}"></a></p>
+                </p>
             </td>
           </tr>
           {% endfor %}

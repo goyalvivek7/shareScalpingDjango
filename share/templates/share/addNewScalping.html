@@ -32,7 +32,7 @@
 
           </div>
           <div class="row">
-            <div class="col-sm-6 col-md-3">
+            <div class="col-sm-6 col-md-6">
 
               <div class="form-group">
                 <label>
@@ -54,7 +54,7 @@
               </div>
 
             </div>
-            <div class="col-sm-6 col-md-3">
+            <div class="col-sm-6 col-md-6">
 
               <div class="form-group">
                 <label>
@@ -84,7 +84,7 @@
               </div>
 
             </div>
-            <div class="col-sm-6 col-md-3">
+            <div class="col-sm-6 col-md-6">
               
               <div class="form-group">
                 <label>
@@ -94,7 +94,7 @@
 
               </div>
             </div>
-            <div class="col-sm-6 col-md-3">
+            <div class="col-sm-6 col-md-6">
 
               <div class="form-group">
                 <label>
@@ -108,7 +108,7 @@
           </div>
 
 
-         
+          <div class="row">
           <div class="col-sm-6">
 
             <div class="form-group inst_btn">
@@ -116,30 +116,51 @@
                 Add Instruments
             </label>
             
-              <input id="instrument_token" class="form-control" type="text" ><img  onclick="addInstrument();" src=" {% static 'images/Group 72.png' %} ">
+              <input style="width: 60%;" id="instrument_token" class="form-control" type="text" ><img style="    left: 62%;
+           
+              width: 35px;     top: 34px;"  onclick="addInstrument();" src=" {% static 'images/Group 72.png' %} ">
+              <img style="    right: 10%; position: absolute;
+              width: 35px;     top: 37px;
+          "  onclick="addToFav();" src=" {% static 'images/heart.png' %} ">
 
             </div>
            
           </div>
-          <div><img  onclick="addToFav();" src=" {% static 'images/heart.png' %} ">
-            <ul style="height:200px; width:18%;overflow:hidden; overflow-y:scroll;">
+          <div class="col-sm-6">
+            <div class="row" style="">
+           
+          <div class="col-sm-12">
+            <label style="margin-bottom: 10px;">
+              My Favorite
+          </label>
+            <ul style="    height: 140px;
+            overflow: hidden;
+            overflow-y: scroll;
+            margin-left: auto;
+            text-align: left;
+            padding: 10px;
+            border: 1px solid;
+            border-color: #E8EFF9;">
               {% for item in fav %}
               <li onclick="setInstrument('{{item.instrumentToken}}');">{{ item.instrumentToken }}</li>
               {% endfor %}
           </ul>
+        </div>
+        </div>
           </div>
-
-          <div class="col-sm-6">
-
-            <div class="form-group inst_btn">
-              <label>
-                Instrument Name (Tag)
-            </label>
-              <input id="instrument_name" class="form-control" type="text" >
-            </div>
-          </div>
+        </div>
+         
 
           <div class="row">
+            <div class="col-sm-6">
+
+              <div class="form-group inst_btn">
+                <label>
+                  Instrument Name (Tag)
+              </label>
+                <input id="instrument_name" class="form-control" type="text" >
+              </div>
+            </div>
             <div class="col-sm-6">
 
               <div class="form-group">

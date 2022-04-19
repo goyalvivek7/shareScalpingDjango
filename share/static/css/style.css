@@ -2,7 +2,8 @@
 /* CSS Document */
 
 
-* {	magin:0;
+* {	
+	margin:0;
 	padding:0;
 	-webkit-box-sizing:  border-box;
 	-moz-box-sizing:  border-box;
@@ -43,7 +44,7 @@ html {
    color: #ccc;  
 }
 body {
-	font-size:13px;
+	font-size:13px; background: #f4f1f1;
 }
 strong, b {
 	font-weight:bold
@@ -146,9 +147,9 @@ input[type="button"]:hover, input[type="submit"]:hover, input[type="button"]:foc
 		font-size: 13px; color: #222222; line-height: 22px;
 		padding-left: 10px;} 
 .right_se_login .form-check-input{width: 20px;}
-.btn_sub{height: 48px;background: #09034B; margin-top: 45px; width: 100%;
+.btn_sub{height: 43px;background: #09034B; margin-top: 45px; width: 100%;
 	border-radius: 4px; font-weight: 500;
-	font-size: 22px;
+	font-size: 15px;
 	line-height: 26px;
 	/* identical to box height */
 	
@@ -156,6 +157,7 @@ input[type="button"]:hover, input[type="submit"]:hover, input[type="button"]:foc
 	letter-spacing: -0.015em;
 	
 	color: #FFFFFF;}
+	.scarlping_form .check_btn label{color: #666565;}
 	.left_se_login img{ width:70%; text-align: center; margin: auto;}
 	.left_se_login p{left: 0px;
     right: 0px;
@@ -168,17 +170,23 @@ input[type="button"]:hover, input[type="submit"]:hover, input[type="button"]:foc
 .des_header{background: #09034B; padding: 10px 30px; }
 .des_header h3{font-weight: normal;
 	font-size: 30px;
-	color: #FFFFFF;}
+	color: #FFFFFF; text-align: center;
+}
 .btnone{font-style: normal;
 	font-weight: 500;
-	font-size: 18px; background: #09034B;
+	font-size: 15px; background: #09034B;
 	border-radius: 24px; padding: 10px 30px; color: #fff;     display: inline-table; }
 	.table_text_he{ padding: 10px 29px;}
 	.tittletwo{font-family: Roboto;
 		font-style: normal;
-		font-weight: 500; color: #000; font-size: 25px;}
+		font-weight: 500; color: #000; font-size: 22px;}
+	.tittletwo.tittlenewone{font-size: 17px;
+		text-align: right;
+		margin-top: 29px; }
+	.dashboard-section thead img{display: none;}
 	.des_table{background: #FFFFFF;
-		box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25); margin-top: 80px;}
+		box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25); margin-top: 38px;}
+		.action_btn img{}
 
 .thead-dark{background: #F1F3F5; padding: 18px 0px; font-weight: normal;
 	font-size: 15px; }
@@ -223,7 +231,7 @@ input[type="button"]:hover, input[type="submit"]:hover, input[type="button"]:foc
 
 .scarlping_form .check_btn label{    display: inline-table;     margin-top: 0px;}
 .scarlping_form .check_btn input{width: 20px;}
-.scarlping_form .check_btn{   width: 50%;
+.scarlping_form .check_btn{   width: 32%;
     /* display: table-cell; */
     padding: 0px;
     float: left;
