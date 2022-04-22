@@ -210,7 +210,6 @@ def cancelOrder(request):
     scalipingOrders = ScalpingOrder.objects.get(id=requestData['orderid'])
     scalipingOrders.status = 'stop'
     scalipingOrders.save()
-   
     return HttpResponse("Hello, world. You're at the polls index.")
     
         
