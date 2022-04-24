@@ -20,7 +20,7 @@ from redis import Redis
 from rq_scheduler import Scheduler
 from django_rq.queues import get_queue
 import threading
-
+import json
 
 def index(request):
 
@@ -52,8 +52,11 @@ def dashboardView(request):
 
 
 def addNewScalping(request):
+    var = request.session['user_id'];
+    loggedInUser = request.session['user_id'];
+    UserData = User.objects.get(id=loggedInUser)
     fav = Favourite.objects.all()
-    context = {"addnew": "addnew","fav":fav}
+    context = {"addnew": "addnew","fav":fav,"loggedInUser":UserData.user_id}
     return render(request, 'share/addNewScalping.html', context)
 
 
@@ -63,7 +66,45 @@ def editScalping(request):
     return HttpResponse("Hello, world. You're at the polls index.")  
 
 def openEditScalping(request):
-    context = {"addnew": "addnew"}
+    scalpingOrder = ScalpingOrder.objects.filter(id=request.session['orderIdForModification'])
+    
+    ordertType = scalpingOrder[0].orderType
+    sellOrder = False
+    buyOrder = False
+    if(ordertType == 'Buy'):
+        buyOrder = True
+        sellOrder = False
+    else:
+        sellOrder = True
+        buyOrder = False
+
+
+
+    equity = False
+    fno = False
+    currency = False
+
+    if(scalpingOrder[0].instrumenttype == 'Normal'):
+        equity = True
+        fno = False
+        currency = False
+    elif(scalpingOrder[0].instrumenttype == 'Fno'):
+        equity = False
+        fno = True
+        currency = False  
+    elif(scalpingOrder[0].instrumenttype == 'Cash'):
+        equity = False
+        fno = False
+        currency = True       
+
+
+    var = request.session['user_id'];
+    loggedInUser = request.session['user_id'];
+    UserData = User.objects.get(id=loggedInUser)
+
+    fav = Favourite.objects.all()
+
+    context = {"fav":fav,"loggedInUser":UserData.user_id,"scalpingOrder": scalpingOrder[0],"sellOrder":sellOrder,"buyOrder":buyOrder,"equity":equity,"fno":fno,"currency":currency}
     return render(request, 'share/editScalping.html', context)
 
 
@@ -95,7 +136,8 @@ class orderHistoryModel:
 def addToFav(request):
     requestData = request.POST
     instrumentToken = requestData['instrumentToken']
-    fav = Favourite(instrumentToken=instrumentToken)
+    intrumentTag = requestData['instrumentTag']
+    fav = Favourite(instrumentToken=instrumentToken,instrumentTag=intrumentTag)
     fav.save()
     return HttpResponse("Hello, world. You're at the polls index.")
    
@@ -243,20 +285,93 @@ def loginUser(request):
     request.session['user_id'] = user.id
     return HttpResponse("Hello, world. You're at the polls index.")
 
+def updateScalpingOrder(request):
+    requestData = request.POST
+    scalipingOrder = ScalpingOrder.objects.get(id=request.session['orderIdForModification'])
+    scalipingOrder.instrumentToken = requestData.get('instrumentToken')
+    scalipingOrder.orderType = requestData.get('orderType')
+    scalipingOrder.lotQuantity = requestData.get('lotQuantity')
+    scalipingOrder.steps = requestData.get('steps')
+    scalipingOrder.entryDiff = requestData.get('entryDiff')
+    scalipingOrder.exitDiff = requestData.get('exitDiff')
+    scalipingOrder.startPrice = requestData.get('startPrice')
+    scalipingOrder.instrumenttype = requestData.get('instrumenttype')
+    scalipingOrder.instrumentTag = requestData.get('instrumentName')
+    scalipingOrder.save()
+    orderHistroy = OrderHistory.objects.filter(scalpingOrderid=request.session['orderIdForModification'])  
+    orderHistroy.delete()
+    return HttpResponse("Hello, world. You're at the polls index.")
 
 def addScalping(request):
     requestData = request.POST
-    currentdate = datetime.today().strftime('%d-%m-%Y')
-    instrumentToken = requestData.get('instrumentToken')
-    orderType = requestData.get('orderType')
-    lotQuantity = requestData.get('lotQuantity')
-    steps = requestData.get('steps')
-    entryDiff = requestData.get('entryDiff')
-    exitDiff = requestData.get('exitDiff')
-    startPrice = requestData.get('startPrice')
-    instrumenttype = requestData.get('instrumenttype')
-    intrumentTag = requestData.get('instrumentName')
-    scaplingOrder = ScalpingOrder(userid=request.session['user_id'], currentdate=currentdate, instrumentToken=instrumentToken, orderType=orderType,
-                                  lotQuantity=lotQuantity, steps=steps, entryDiff=entryDiff, exitDiff=exitDiff, startPrice=startPrice ,instrumenttype=instrumenttype,instrumentTag=intrumentTag)
-    scaplingOrder.save()
+
+    data = requestData['data']
+    jsonEncoded = json.loads(data)
+
+    if(jsonEncoded[0]):
+        if(jsonEncoded[0]['type'] == 'buy'):
+             currentdate = datetime.today().strftime('%d-%m-%Y')
+             instrumentToken = jsonEncoded[0]['instrumentToken']
+             orderType = 'Buy'
+             lotQuantity = jsonEncoded[0]['lotQuantity']
+             steps = jsonEncoded[0]['steps']
+             entryDiff = jsonEncoded[0]['entryDiff']
+             exitDiff = jsonEncoded[0]['exitDiff']
+             startPrice = jsonEncoded[0]['startPrice']
+             instrumenttype = jsonEncoded[0]['intrumentType']
+             intrumentTag = jsonEncoded[0]['instrumentTag']
+             scaplingOrder = ScalpingOrder(userid=request.session['user_id'], currentdate=currentdate, instrumentToken=instrumentToken, orderType=orderType,
+                                       lotQuantity=lotQuantity, steps=steps, entryDiff=entryDiff, exitDiff=exitDiff, startPrice=startPrice ,instrumenttype=instrumenttype,instrumentTag=intrumentTag)
+             scaplingOrder.save()
+        else:
+             currentdate = datetime.today().strftime('%d-%m-%Y')
+             instrumentToken = jsonEncoded[0]['instrumentToken']
+             orderType = 'Sell'
+             lotQuantity = jsonEncoded[0]['lotQuantity']
+             steps = jsonEncoded[0]['steps']
+             entryDiff = jsonEncoded[0]['entryDiff']
+             exitDiff = jsonEncoded[0]['exitDiff']
+             startPrice = jsonEncoded[0]['startPrice']
+             instrumenttype = jsonEncoded[0]['intrumentType']
+             intrumentTag = jsonEncoded[0]['instrumentTag']
+             scaplingOrder = ScalpingOrder(userid=request.session['user_id'], currentdate=currentdate, instrumentToken=instrumentToken, orderType=orderType,
+                                       lotQuantity=lotQuantity, steps=steps, entryDiff=entryDiff, exitDiff=exitDiff, startPrice=startPrice ,instrumenttype=instrumenttype,instrumentTag=intrumentTag)
+             scaplingOrder.save()
+
+    if(jsonEncoded[1]):
+        if(jsonEncoded[1]['type'] == 'buy'):
+             currentdate = datetime.today().strftime('%d-%m-%Y')
+             instrumentToken = jsonEncoded[1]['instrumentToken']
+             orderType = 'Buy'
+             lotQuantity = jsonEncoded[1]['lotQuantity']
+             steps = jsonEncoded[1]['steps']
+             entryDiff = jsonEncoded[1]['entryDiff']
+             exitDiff = jsonEncoded[1]['exitDiff']
+             startPrice = jsonEncoded[1]['startPrice']
+             instrumenttype = jsonEncoded[1]['intrumentType']
+             intrumentTag = jsonEncoded[1]['instrumentTag']
+             scaplingOrder = ScalpingOrder(userid=request.session['user_id'], currentdate=currentdate, instrumentToken=instrumentToken, orderType=orderType,
+                                       lotQuantity=lotQuantity, steps=steps, entryDiff=entryDiff, exitDiff=exitDiff, startPrice=startPrice ,instrumenttype=instrumenttype,instrumentTag=intrumentTag)
+             scaplingOrder.save()
+        else:
+             currentdate = datetime.today().strftime('%d-%m-%Y')
+             instrumentToken = jsonEncoded[1]['instrumentToken']
+             orderType = 'Sell'
+             lotQuantity = jsonEncoded[1]['lotQuantity']
+             steps = jsonEncoded[1]['steps']
+             entryDiff = jsonEncoded[1]['entryDiff']
+             exitDiff = jsonEncoded[1]['exitDiff']
+             startPrice = jsonEncoded[1]['startPrice']
+             instrumenttype = jsonEncoded[1]['intrumentType']
+             intrumentTag = jsonEncoded[1]['instrumentTag']
+             scaplingOrder = ScalpingOrder(userid=request.session['user_id'], currentdate=currentdate, instrumentToken=instrumentToken, orderType=orderType,
+                                       lotQuantity=lotQuantity, steps=steps, entryDiff=entryDiff, exitDiff=exitDiff, startPrice=startPrice ,instrumenttype=instrumenttype,instrumentTag=intrumentTag)
+             scaplingOrder.save()        
+
+
+
+    
+
+
+
     return HttpResponse("Hello, world. You're at the polls index.")

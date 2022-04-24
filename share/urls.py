@@ -14,4 +14,5 @@ urlpatterns = [
     path('deleteScalping',views.deleteScalping),
     path('editScalping',views.editScalping),
     path('openEditScalping',views.openEditScalping),
+    path('updateScalping',views.updateScalpingOrder),
 ]

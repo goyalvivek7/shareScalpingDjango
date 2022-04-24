@@ -2,8 +2,7 @@
 /* CSS Document */
 
 
-* {	
-	margin:0;
+* {	magin:0;
 	padding:0;
 	-webkit-box-sizing:  border-box;
 	-moz-box-sizing:  border-box;
@@ -158,6 +157,11 @@ input[type="button"]:hover, input[type="submit"]:hover, input[type="button"]:foc
 	
 	color: #FFFFFF;}
 	.scarlping_form .check_btn label{color: #666565;}
+	.row.input_box{    margin-right: -5px;
+		margin-left: -5px;}
+		.row.input_box .col-md-3{    flex: 0 0 20%;
+			max-width: 20%; padding-right: 5px;
+			padding-left: 5px;}
 	.left_se_login img{ width:70%; text-align: center; margin: auto;}
 	.left_se_login p{left: 0px;
     right: 0px;
@@ -211,6 +215,14 @@ input[type="button"]:hover, input[type="submit"]:hover, input[type="button"]:foc
 .hover_view{display: none;}
 .sell_se{color: red;}
 .table_des img{ margin-right: 5px;}
+.inst_btn img.heart-icon{right: 0px; position: absolute;
+	width: 26px;
+top: 39px;}
+.inst_btn img.add-icon{     right: 0px;
+               
+	width: 28px;
+top: 36px;}
+.table_des .action_btn img{ margin-right: 10px;}
 .table_inner{ padding-left: 13px;  padding-right: 13px; padding-bottom: 70px; margin-bottom: 20px;} 	
 .scarlping-section{background: #F6F6F6;  padding-top: 38px; padding-bottom: 38px;}
 .scarlping_inner{ padding-left: 117px; padding-right: 117px; background-color: #fff; padding-bottom: 40px; }
@@ -219,8 +231,8 @@ input[type="button"]:hover, input[type="submit"]:hover, input[type="button"]:foc
 .scarlping_form .form-control{
 		box-sizing: border-box;
 		border-radius: 4px; background-color: #fff;     margin-top: 5px;}
-		.scarlping_form label{margin-top: 34px ; font-weight: normal;
-			font-size: 18px;
+		.scarlping_form label{margin-top: 17px ; font-weight: normal;
+			font-size: 14px;
 			line-height: 21px;
 			/* identical to box height */
 			
@@ -230,8 +242,8 @@ input[type="button"]:hover, input[type="submit"]:hover, input[type="button"]:foc
 			color: #222222;     display: block;}
 
 .scarlping_form .check_btn label{    display: inline-table;     margin-top: 0px;}
-.scarlping_form .check_btn input{width: 20px;}
-.scarlping_form .check_btn{   width: 32%;
+.scarlping_form  .check_btn input{width: 20px;}
+.scarlping_form   .check_btn{   width: 25%;
     /* display: table-cell; */
     padding: 0px;
     float: left;
@@ -276,6 +288,23 @@ nav ul{overflow:hidden; overflow-y:scroll;}
 
 
 @media (max-width: 768px){
+	.row.input_box .col-md-3 {
+		flex: 0 0 50%;
+		max-width: 50%;}
+	.col-sm-12 .inst_btn input{width: 70% !important;}
+	.inst_btn img.heart-icon {
+		right: 0%;
+		position: absolute;
+		width: 21px;
+		top: 36px;
+	}
+	.inst_btn img.add-icon {
+		right: 0%;
+		width: 23px;
+		top: 32px;
+	}
+	.scarlping_form .check_btn {
+		width: 50%; margin-bottom: -1px;} 
 		.des_table{    margin-top: 43px;}
 	.right_se_login {
 		
@@ -311,6 +340,7 @@ nav ul{overflow:hidden; overflow-y:scroll;}
 	}
 
 	@media (max-width: 600px){
+		.btnone img{    width: 14px;}
 		.right_se_login {
 			width: 100%;;
 			padding-left: 30px;

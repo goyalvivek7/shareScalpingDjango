@@ -39,5 +39,6 @@ class BackgroundProcess(models.Model):
 
 class Favourite(models.Model):
     instrumentToken = models.CharField(max_length=200)
+    instrumentTag = models.CharField(max_length=200 , default='')
 
 

@@ -18,12 +18,15 @@
 </style>
 
 <body>
-<div class="scarlping-section">
+<div class="scarlping-section" style="padding-top: 19px;">
 
 	<div class="container">
+    <div class="scarlping_inner" style="background: transparent;     padding-bottom: 15px;">
+    <h5 class="tittletwo tittlenewone" style="margin-top: 0px; font-size: 15px; ">Logged In User : {{ loggedInUser }}</h5>
+    </div>
     <div class="scarlping_inner">
-
-      <h5 class="tittletwo" style="font-size: 19px; padding-top: 31px; padding-bottom: 31px;">Add New Scarlping </h5>
+      
+      <h5 class="tittletwo" style="font-size: 19px; padding-top: 31px; padding-bottom: 31px;">Add New Scalping </h5>
       <div class="scarlping_form">
        
           <div class="row">
@@ -31,169 +34,352 @@
             
 
           </div>
+          <label style="letter-spacing: 1px;
+          margin-top: 0px;
+          margin-bottom: 10px;
+          color: #09034b;">
+            Scalping Type
+        </label>
           <div class="row">
-            <div class="col-sm-6 col-md-6">
+
+            
+            <div class="col-sm-6 col-md-6" style="background: #eae5e5;">
 
               <div class="form-group">
-                <label>
-                  Scalping Type
-              </label>
-              <div class="form-check check_btn">
-                <input class="form-check-input" type="radio" name="scalpingtype" id="scalpingtype1" value="Buy" checked>
+               
+              <div class="form-check check_btn" style="float: none;
+              width: 100%;     border-bottom: 2px solid #000;
+    padding: 20px;
+    text-align: center;     background: #fff;">
+                <input class="form-check-input" type="checkbox" name="scalpingtype" id="scalpingtype1" value="Buy" checked>
                 <label class="form-check-label" for="exampleRadios1">
                   Buy
                 </label>
               </div>
               
-              <div class="form-check check_btn">
-                <input class="form-check-input" type="radio" name="scalpingtype" id="scalpingtype2" value="Sell" >
-                <label class="form-check-label" for="exampleRadios2">
-                  Sell
-                </label>
-              </div>
+              
               </div>
 
-            </div>
-            <div class="col-sm-6 col-md-6">
+             <div class="row">
+              <div class="col-sm-12 col-md-12">
 
-              <div class="form-group">
-                <label>
-                  Intrumenet Type
-              </label>
-              <div class="form-check check_btn">
-                <input class="form-check-input" type="radio" name="instrumentType" id="instrumentType1" value="Normal" checked>
-                <label class="form-check-label" for="exampleRadios1">
-                  Equity 
+                <div class="form-group">
+                  <label>
+                    Instrument  Type
                 </label>
+                <div class="form-check check_btn">
+                  <input class="form-check-input" type="radio" name="instrumentType" id="buyEquity" value="Normal" checked>
+                  <label class="form-check-label" for="exampleRadios1">
+                    Equity 
+                  </label>
+                </div>
+                <div class="form-check check_btn">
+                  <input class="form-check-input" type="radio" name="instrumentType" id="buyfno" value="fno" >
+                  <label class="form-check-label" for="exampleRadios3">
+                    FNO
+                  </label>
+                </div>
+                
+                <div class="form-check check_btn">
+                  <input class="form-check-input" type="radio" name="instrumentType" id="buyCurrency" value="Cash" >
+                  <label class="form-check-label" for="exampleRadios2">
+                    Currency
+                  </label>
+                </div>
+  
+                <div class="form-check check_btn">
+                  <input class="form-check-input" type="radio" name="instrumentType" id="buyCommodity" value="Commodity" >
+                  <label class="form-check-label" for="exampleRadios4">
+                    Commodity
+                  </label>
+                </div>
+  
+                </div>
+  
               </div>
               
-              <div class="form-check check_btn">
-                <input class="form-check-input" type="radio" name="instrumentType" id="instrumentType2" value="Cash" >
-                <label class="form-check-label" for="exampleRadios2">
-                  Currency
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+    
+                <div class="form-group inst_btn">
+                  <label>
+                    Add Instruments
                 </label>
+                
+                  <input style="width: 80%;" id="buyInstrumentToken" class="form-control" type="text" ><img class="add-icon" onclick="addInstrument();" src=" {% static 'images/Group 72.png' %} ">
+                  
+    
+                </div>
+               
               </div>
-
-              <div class="form-check check_btn">
-                <input class="form-check-input" type="radio" name="instrumentType" id="instrumentType3" value="fno" >
-                <label class="form-check-label" for="exampleRadios3">
-                  FNO
+              <div class="col-md-6">
+    
+                <div class="form-group inst_btn">
+                  <label>
+                    Instrument Name (Tag)
                 </label>
+                  <input style="width: 80%;" id="buyInstrumenttag" class="form-control" type="text" >
+                  <img class="heart-icon"  onclick="addToFav();" src=" {% static 'images/heart.png' %} ">
+                </div>
+        
               </div>
-
+              <div class="col-sm-12">
+                <div class="row" >
+               
+              <div class="col-sm-12">
+                <label style="margin-bottom: 10px;">
+                  My Favourite
+              </label>
+                <ul style="    height: 140px;
+                overflow: hidden;
+                overflow-y: scroll;
+                margin-left: auto;
+                text-align: left;
+                padding: 10px;
+                border: 1px solid;
+                border-color: #E8EFF9; background: #fff;">
+                  {% for item in fav %}
+                  <li onclick="setBuyInstrument('{{item.instrumentToken}}');">{{ item.instrumentTag }}</li>
+                  {% endfor %}
+              </ul>
+            </div>
+            </div>
+              </div>
+            </div>
+             
+    
+              <div class="row input_box">
+                <div class="col-sm-6 col-md-3">
+                
+                  <div class="form-group">
+                    <label>
+                      Steps
+                  </label>
+                    <input id="buySteps" class="form-control" type="text" >
+    
+                  </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+    
+                  <div class="form-group">
+                    <label>
+                      Lot Quantity 
+                  </label>
+                    <input id="buyLotQuantity" class="form-control" type="text" >
+    
+                  </div>
+                </div>
+             
+                <div class="col-sm-6 col-md-3">
+    
+                  <div class="form-group">
+                    <label>
+                      Entry diff
+                  </label>
+                    <input id="buyEnteryDiff" class="form-control" type="text" >
+    
+                  </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+    
+                  <div class="form-group">
+                    <label>
+                      Exit diff
+                  </label>
+                    <input id="buyExitDiff" class="form-control" type="text" >
+    
+                  </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+    
+                  <div class="form-group">
+                    <label>
+                      Start price
+                  </label>
+                    <input id="buyStartPrice" class="form-control" type="text" >
+    
+                  </div>
+                </div>
+               
+                
+    
               </div>
 
             </div>
-            <div class="col-sm-6 col-md-6">
+
+
+
+
+            <div class="col-sm-6 col-md-6" style="background: #eee;">
+
+              <div class="form-group">
+               
+                <div class="form-check check_btn" style="float: none;
+                width: 100%; border-bottom: 2px solid #000;     background: #fff;
+    padding: 20px;
+    text-align: center;">
+                  <input class="form-check-input" type="checkbox" name="scalpingtype" id="scalpingtype2" value="Sell" >
+                  <label class="form-check-label" for="exampleRadios2">
+                    Sell
+                  </label>
+                </div>
               
-              <div class="form-group">
-                <label>
-                  Steps
-              </label>
-                <input id="steps" class="form-control" type="text" >
+              
+              </div>
+             <div class="row">
+              <div class="col-sm-12 col-md-12">
 
+                <div class="form-group">
+                  <label>
+                    Instrument  Type
+                </label>
+                <div class="form-check check_btn">
+                  <input class="form-check-input" type="radio" name="sellinstrumentType" id="sellEquity" value="Normal" checked>
+                  <label class="form-check-label" for="exampleRadios1">
+                    Equity 
+                  </label>
+                </div>
+                <div class="form-check check_btn">
+                  <input class="form-check-input" type="radio" name="sellinstrumentType" id="sellFno" value="fno" >
+                  <label class="form-check-label" for="exampleRadios3">
+                    FNO
+                  </label>
+                </div>
+                
+                <div class="form-check check_btn">
+                  <input class="form-check-input" type="radio" name="sellinstrumentType" id="sellCurrency" value="Cash" >
+                  <label class="form-check-label" for="exampleRadios2">
+                    Currency
+                  </label>
+                </div>
+  
+                
+                <div class="form-check check_btn">
+                  <input class="form-check-input" type="radio" name="sellinstrumentType" id="sellCommodity" value="Commodity" >
+                  <label class="form-check-label" for="exampleRadios4">
+                    Commodity
+                  </label>
+                </div>
+  
+                </div>
+  
+              </div>
+              
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+    
+                <div class="form-group inst_btn">
+                  <label>
+                    Add Instruments
+                </label>
+                
+                  <input style="width: 80%;" id="sellInstrumentToken" class="form-control" type="text" ><img class="add-icon" onclick="addInstrument();" src=" {% static 'images/Group 72.png' %} ">
+                  
+    
+                </div>
+               
+              </div>
+              <div class="col-md-6">
+    
+                <div class="form-group inst_btn">
+                  <label>
+                    Instrument Name (Tag)
+                </label>
+                  <input style="width: 80%;" id="sellInstrumenttag" class="form-control" type="text" >
+                  <img class="heart-icon"  onclick="addToFavSell();" src=" {% static 'images/heart.png' %} ">
+                </div>
+        
+              </div>
+              <div class="col-sm-12">
+                <div class="row" style="">
+               
+              <div class="col-sm-12">
+                <label style="margin-bottom: 10px;">
+                  My Favourite
+              </label>
+                <ul style="    height: 140px;
+                overflow: hidden;
+                overflow-y: scroll;
+                margin-left: auto;
+                text-align: left;
+                padding: 10px;
+                border: 1px solid;
+                border-color: #E8EFF9; background: #fff;">
+                  {% for item in fav %}
+                  <li onclick="setSellInstrument('{{item.instrumentToken}}');">{{ item.instrumentTag }}</li>
+                  {% endfor %}
+              </ul>
+            </div>
+            </div>
               </div>
             </div>
-            <div class="col-sm-6 col-md-6">
-
-              <div class="form-group">
-                <label>
-                  Lot Quantity 
-              </label>
-                <input id="lot_quantity" class="form-control" type="text" >
-
+             
+    
+              <div class="row input_box">
+                <div class="col-sm-6 col-md-3">
+                
+                  <div class="form-group">
+                    <label>
+                      Steps
+                  </label>
+                    <input id="sellSteps" class="form-control" type="text" >
+    
+                  </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+    
+                  <div class="form-group">
+                    <label>
+                      Lot Quantity 
+                  </label>
+                    <input id="sellLotQuntity" class="form-control" type="text" >
+    
+                  </div>
+                </div>
+             
+                <div class="col-sm-6 col-md-3">
+    
+                  <div class="form-group">
+                    <label>
+                      Entry diff
+                  </label>
+                    <input id="sellEntryDiff" class="form-control" type="text" >
+    
+                  </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+    
+                  <div class="form-group">
+                    <label>
+                      Exit diff
+                  </label>
+                    <input id="sellExitDiff" class="form-control" type="text" >
+    
+                  </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+    
+                  <div class="form-group">
+                    <label>
+                      Start price
+                  </label>
+                    <input id="sellStartPrice" class="form-control" type="text" >
+    
+                  </div>
+                </div>
+               
+                
+    
               </div>
             </div>
+           
         
           </div>
 
 
-          <div class="row">
-          <div class="col-sm-6">
-
-            <div class="form-group inst_btn">
-              <label>
-                Add Instruments
-            </label>
-            
-              <input style="width: 60%;" id="instrument_token" class="form-control" type="text" ><img style="    left: 62%;
-           
-              width: 35px;     top: 34px;"  onclick="addInstrument();" src=" {% static 'images/Group 72.png' %} ">
-              <img style="    right: 10%; position: absolute;
-              width: 35px;     top: 37px;
-          "  onclick="addToFav();" src=" {% static 'images/heart.png' %} ">
-
-            </div>
-           
-          </div>
-          <div class="col-sm-6">
-            <div class="row" style="">
-           
-          <div class="col-sm-12">
-            <label style="margin-bottom: 10px;">
-              My Favorite
-          </label>
-            <ul style="    height: 140px;
-            overflow: hidden;
-            overflow-y: scroll;
-            margin-left: auto;
-            text-align: left;
-            padding: 10px;
-            border: 1px solid;
-            border-color: #E8EFF9;">
-              {% for item in fav %}
-              <li onclick="setInstrument('{{item.instrumentToken}}');">{{ item.instrumentToken }}</li>
-              {% endfor %}
-          </ul>
-        </div>
-        </div>
-          </div>
-        </div>
          
-
-          <div class="row">
-            <div class="col-sm-6">
-
-              <div class="form-group inst_btn">
-                <label>
-                  Instrument Name (Tag)
-              </label>
-                <input id="instrument_name" class="form-control" type="text" >
-              </div>
-            </div>
-            <div class="col-sm-6">
-
-              <div class="form-group">
-                <label>
-                  Entry diff
-              </label>
-                <input id="entry_diff" class="form-control" type="text" >
-
-              </div>
-            </div>
-            <div class="col-sm-6">
-
-              <div class="form-group">
-                <label>
-                  Start price
-              </label>
-                <input id="start_price" class="form-control" type="text" >
-
-              </div>
-            </div>
-            <div class="col-sm-6">
-
-              <div class="form-group">
-                <label>
-                  Exit diff
-              </label>
-                <input id="exit_diff" class="form-control" type="text" >
-
-              </div>
-            </div>
-            
-
-          </div>
 
           <button style="margin-left: auto;
           width: auto;
@@ -216,16 +402,21 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 <script>
-  function setInstrument(instruemntToken){
-    var instrumentToken = document.getElementById("instrument_token").value;
-    document.getElementById("instrument_token").value = instruemntToken;
+  function setBuyInstrument(instruemntToken){
+    var instrumentToken = document.getElementById("buyInstrumentToken").value;
+    document.getElementById("buyInstrumentToken").value = instruemntToken;
+  }
+  function setSellInstrument(instruemntToken){
+    var instrumentToken = document.getElementById("sellInstrumentToken").value;
+    document.getElementById("sellInstrumentToken").value = instruemntToken;
   }
 </script>
 
 <script>
   function addToFav(){
-    var instrumentToken = document.getElementById("instrument_token").value;
-    if(instrumentToken == "")
+    var instrumentToken = document.getElementById("buyInstrumentToken").value;
+    var instrumentTag = document.getElementById("buyInstrumenttag").value;
+    if(instrumentToken == "" && instrumentTag == "")
     {
       alert("Please select instrument token");
       return;
@@ -236,7 +427,38 @@
         url: "addToFav",
         type: 'POST',
         context: document.body,
-        data: {instrumentToken: instrumentToken,'csrfmiddlewaretoken':"{{ csrf_token }}" },
+        data: {instrumentToken: instrumentToken,instrumentTag:instrumentTag,'csrfmiddlewaretoken':"{{ csrf_token }}" },
+        success: function (data) {
+             console.log(data);
+             
+              
+              alert("Added to favourite");
+              
+        },
+    }).done(function () {
+        // alert('finished extracting data');;
+    });
+    }
+  }
+</script>
+
+
+<script>
+  function addToFavSell(){
+    var instrumentToken = document.getElementById("sellInstrumentToken").value;
+    var instrumentTag = document.getElementById("sellInstrumenttag").value;
+    if(instrumentToken == "" && instrumentTag == "")
+    {
+      alert("Please select instrument token");
+      return;
+    }
+    else
+    {
+      $.ajax({
+        url: "addToFav",
+        type: 'POST',
+        context: document.body,
+        data: {instrumentToken: instrumentToken,instrumentTag:instrumentTag,'csrfmiddlewaretoken':"{{ csrf_token }}" },
         success: function (data) {
              console.log(data);
              
@@ -292,94 +514,97 @@
 
 <script>
   function addData() {
-    var instrumentToken = document.getElementById("instrument_token").value;
-    var instrumentName = document.getElementById("instrument_name").value;
-    var orderType = "Sell";
-    var instrumenttype = "Cash";
-    var lotQuantity = document.getElementById("lot_quantity").value;
-    var steps = document.getElementById("steps").value;
-    var entryDiff = document.getElementById("entry_diff").value;
-    var exitDiff = document.getElementById("exit_diff").value;
-    var startPrice = document.getElementById("start_price").value;
 
-    var buyType = document.getElementById("scalpingtype1").checked;
-    var sellType = document.getElementById("scalpingtype2").checked;
 
-    var insruNormalType = document.getElementById("instrumentType1").checked;
-    var insruNormalCash = document.getElementById("instrumentType2").checked;
-    var insruNormalFno = document.getElementById("instrumentType3").checked;
+    var dataToSend = [];
 
-    console.log(buyType);
-    console.log(sellType);
-
-    console.log(insruNormalType);
-    console.log(insruNormalCash);
-
-    if(insruNormalType == true)
+    var buy = document.getElementById("scalpingtype1").checked;
+    
+    if(buy == true)
     {
-      instrumenttype = "Normal";
+      var buyEquity = document.getElementById("buyEquity").checked;
+      var buyfno = document.getElementById("buyfno").checked;
+      var buyCurrency = document.getElementById("buyCurrency").checked;
+      var buyCommodity = document.getElementById("buyCommodity").checked;
+      var buyInstrumentToken = document.getElementById("buyInstrumentToken").value;
+      var buyInstrumenttag = document.getElementById("buyInstrumenttag").value;
+      var buySteps = document.getElementById("buySteps").value;
+      var buyLotQuantity = document.getElementById("buyLotQuantity").value;
+      var buyEnteryDiff = document.getElementById("buyEnteryDiff").value;
+      var buyExitDiff = document.getElementById("buyExitDiff").value;
+      var buyStartPrice = document.getElementById("buyStartPrice").value;
+
+      var buyInstrumentType = '';
+      if(buyEquity == true)
+      {
+         buyInstrumentType = "Normal";
+      }
+      else if(buyfno == true)
+      {
+         buyInstrumentType = "Fno";
+      }
+      else if(buyCurrency == true)
+      {
+         buyInstrumentType = "Cash";
+      }
+      else if(buyCommodity == true)
+      {
+         buyInstrumentType = "Normal";
+      }
+
+      
+
+      var buy = {"type":"buy","intrumentType":buyInstrumentType,"instrumentToken":buyInstrumentToken,"instrumentTag":buyInstrumenttag,"steps":buySteps,"lotQuantity":buyLotQuantity,"entryDiff":buyEnteryDiff,"exitDiff":buyExitDiff,"startPrice":buyStartPrice};
+      dataToSend.push(buy);
     }
-    else if(insruNormalCash == true)
-    {
-      instrumenttype = "Cash";
-    }
-    else if(insruNormalFno == true)
-    {
-      instrumenttype = "Fno";
-    }
+   
+
+    var sell = document.getElementById("scalpingtype2").checked;
     
 
-    if(buyType == true)
+    if(sell == true)
     {
-      orderType = "Buy";
-    }
-    else if(sellType)
-    {
-      orderType = "Sell";
+      var sellEquity = document.getElementById("sellEquity").checked;
+      var sellfno = document.getElementById("sellFno").checked;
+      var sellCurrency = document.getElementById("sellCurrency").checked;
+      var sellCommodity = document.getElementById("sellCommodity").checked;
+      var sellInstrumentToken = document.getElementById("sellInstrumentToken").value;
+      var sellInstrumenttag = document.getElementById("sellInstrumenttag").value;
+      var sellSteps = document.getElementById("sellSteps").value;
+      var sellLotQuntity = document.getElementById("sellLotQuntity").value;
+      var sellEntryDiff = document.getElementById("sellEntryDiff").value;
+      var sellExitDiff = document.getElementById("sellExitDiff").value;
+      var sellStartPrice = document.getElementById("sellStartPrice").value;
+
+      var sellInstrumentType = '';
+      if(sellEquity == true)
+      {
+        sellInstrumentType = "Normal";
+      }
+      else if(sellfno == true)
+      {
+        sellInstrumentType = "Fno";
+      }
+      else if(sellCurrency == true)
+      {
+        sellInstrumentType = "Cash";
+      }
+      else if(sellCommodity == true)
+      {
+        sellInstrumentType = "Normal";
+      }
+
+      var sell = {"type":"sell","intrumentType":sellInstrumentType,"instrumentToken":sellInstrumentToken,"instrumentTag":sellInstrumenttag,"steps":sellSteps,"lotQuantity":sellLotQuntity,"entryDiff":sellEntryDiff,"exitDiff":sellExitDiff,"startPrice":sellStartPrice};
+      dataToSend.push(sell);
     }
 
 
-    if(instrumentToken == '')
-    {
-      alert("Please select instrument token");
-      return;
-    }
-    else if(lotQuantity == '')
-    {
-      alert("Please enter lot quantity");
-      return;
-    }
-    else if(steps == '')
-    {
-      alert("Please enter steps");
-      return;
-    } 
-    else if(entryDiff == '')
-    {
-      alert("Please enter entry diff");
-      return;
-    }
-    else if(exitDiff == '')
-    {
-      alert("Please enter exit diff");
-      return;
-    }
-    else if(startPrice == '')
-    {
-      alert("Please enter start price");
-      return;
-    }
-    else if(instrumentName == '')
-    {
-      alert("Please enter instrument name");
-      return;
-    }
-    else{
+   
       $.ajax({
           url: "addScalping",
           type: 'POST',
           context: document.body,
-          data: {instrumenttype:instrumenttype , instrumentToken: instrumentToken , orderType:orderType, lotQuantity:lotQuantity, steps:steps, entryDiff:entryDiff, exitDiff:exitDiff, startPrice:startPrice,instrumentName:instrumentName,'csrfmiddlewaretoken':"{{ csrf_token }}" },
+          data: {'data':JSON.stringify(dataToSend),'csrfmiddlewaretoken':"{{ csrf_token }}" },
           success: function (data) {
                console.log(data);
                location.replace('http://127.0.0.1:8000/share/dashboard');
@@ -387,7 +612,7 @@
       }).done(function () {
           // alert('finished extracting data');;
       });
-    }
+    
       
   }
 </script>

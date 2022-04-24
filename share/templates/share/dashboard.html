@@ -50,13 +50,16 @@
             <td><img src=" {% static 'images/Vector.png' %} ">{{ order.exitDiff }}</td>
             <td><img src=" {% static 'images/Vector.png' %} ">{{ order.startPrice }}</td>
             <td>
-                <p class="action_btn"><img onclick="editScalping('{{order.id}}');" class="icon_view" src=" {% static 'images/ant-design_edit-outlined.png' %}"> <img onclick="editScalping('{{order.id}}');" class="hover_view" src=" {% static 'images/Vector2.png' %}">
+                <p class="action_btn">
+                  {% if order.status == 'stop' %}
+                  <a href="#"><img onclick="runScalping('{{order.id}}','{{order.status}}');" class="icon_view" src=" {% static 'images/power-button.png' %}"> <img  onclick="runScalping('{{order.id}}','{{order.status}}');" class="hover_view" src=" {% static 'images/power-buttonone.png' %}"></a>
+             {% else %}
+                  <a href="#"><img onclick="runScalping('{{order.id}}','{{order.status}}');" class="icon_view" src=" {% static 'images/stop.png' %}"> <img onclick="runScalping('{{order.id}}','{{order.status}}');" class="hover_view" src=" {% static 'images/stop.png' %}"></a> 
+             {% endif %}
+                  
+                  <img onclick="editScalping('{{order.id}}');" class="icon_view" src=" {% static 'images/ant-design_edit-outlined.png' %}"> <img onclick="editScalping('{{order.id}}');" class="hover_view" src=" {% static 'images/Vector2.png' %}">
                 <a href="#"><img style="    width: 18px;" onclick="deleteScalping('{{order.id}}');" class="icon_view" src=" {% static 'images/delete.png' %}"><img style="    width: 18px;" onclick="deleteScalping('{{order.id}}');" class="hover_view" src=" {% static 'images/deleteone.png' %}"> </a>
-                {% if order.status == 'stop' %}
-                     <a href="#"><img onclick="runScalping('{{order.id}}','{{order.status}}');" class="icon_view" src=" {% static 'images/power-buttonone.png' %}"> <img  onclick="runScalping('{{order.id}}','{{order.status}}');" class="hover_view" src=" {% static 'images/power-buttonone.png' %}"></a>
-                {% else %}
-                     <a href="#"><img onclick="runScalping('{{order.id}}','{{order.status}}');" class="icon_view" src=" {% static 'images/stop.png' %}"> <img onclick="runScalping('{{order.id}}','{{order.status}}');" class="hover_view" src=" {% static 'images/stop.png' %}"></a> 
-                {% endif %}
+              
                 </p>
             </td>
           </tr>
@@ -97,7 +100,8 @@
 <script>
   function deleteScalping(order){
 
-   
+
+    if (confirm('Are you sure you want to delete this scalping?')) {
       console.log('clicked',order);
       $.ajax({
           url: "deleteScalping",
@@ -112,6 +116,13 @@
           // alert('finished extracting data');;
       });
     
+    } else {
+      // Do nothing!
+      console.log('Thing was not saved to the database.');
+    }
+
+   
+      
     
 
    

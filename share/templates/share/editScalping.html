@@ -21,9 +21,14 @@
 <div class="scarlping-section">
 
 	<div class="container">
+
+    <div class="scarlping_inner" style="background: transparent;     padding-bottom: 15px;">
+      <h5 class="tittletwo tittlenewone" style="margin-top: 0px; font-size: 15px; ">Logged In User : {{ loggedInUser }}</h5>
+      </div>
+
     <div class="scarlping_inner">
 
-      <h5 class="tittletwo" style="font-size: 19px; padding-top: 31px; padding-bottom: 31px;">Edit Scarlping </h5>
+      <h5 class="tittletwo" style="font-size: 19px; padding-top: 31px; padding-bottom: 31px;">Edit Scalping </h5>
       <div class="scarlping_form">
        
           <div class="row">
@@ -32,141 +37,153 @@
 
           </div>
           <div class="row">
-            <div class="col-sm-6 col-md-3">
+            <div class="col-sm-6 col-md-6">
 
               <div class="form-group">
                 <label>
                   Scalping Type
               </label>
               <div class="form-check check_btn">
-                <input class="form-check-input" type="radio" name="scalpingtype" id="scalpingtype1" value="Buy" checked>
+                <input class="form-check-input" type="radio" name="scalpingtype" id="scalpingtype1" value="Buy"{% if buyOrder %} checked{% endif %}>
                 <label class="form-check-label" for="exampleRadios1">
                   Buy
                 </label>
               </div>
               
-              <div class="form-check check_btn">
-                <input class="form-check-input" type="radio" name="scalpingtype" id="scalpingtype2" value="Sell" >
+               <div class="form-check check_btn">
+                <input class="form-check-input" type="radio" name="scalpingtype" id="scalpingtype2" value="Sell"{% if sellOrder %} checked{% endif %}>
                 <label class="form-check-label" for="exampleRadios2">
                   Sell
                 </label>
-              </div>
+              </div> 
               </div>
 
             </div>
-            <div class="col-sm-6 col-md-3">
+            <div class="col-sm-6 col-md-6">
 
               <div class="form-group">
                 <label>
-                  Intrumenet Type
+                  Instrument  Type
               </label>
               <div class="form-check check_btn">
-                <input class="form-check-input" type="radio" name="instrumentType" id="instrumentType1" value="Normal" checked>
+                <input class="form-check-input" type="radio" name="instrumentType" id="instrumentType1" value="Normal"{% if equity %} checked{% endif %}>
                 <label class="form-check-label" for="exampleRadios1">
                   Equity 
                 </label>
               </div>
-              
               <div class="form-check check_btn">
-                <input class="form-check-input" type="radio" name="instrumentType" id="instrumentType2" value="Cash" >
+                <input class="form-check-input" type="radio" name="instrumentType" id="instrumentType3" value="fno"{% if fno %} checked{% endif %}>
+                <label class="form-check-label" for="exampleRadios3">
+                  FNO
+                </label>
+              </div>
+              <div class="form-check check_btn">
+                <input class="form-check-input" type="radio" name="instrumentType" id="instrumentType2" value="Cash"{% if currency %} checked{% endif %}>
                 <label class="form-check-label" for="exampleRadios2">
                   Currency
                 </label>
               </div>
 
-              <div class="form-check check_btn">
-                <input class="form-check-input" type="radio" name="instrumentType" id="instrumentType3" value="fno" >
-                <label class="form-check-label" for="exampleRadios3">
-                  FNO
-                </label>
-              </div>
+             
 
               </div>
-
-            </div>
-            <div class="col-sm-6 col-md-3">
-              
-              <div class="form-group">
-                <label>
-                  Steps
-              </label>
-                <input id="steps" class="form-control" type="text" >
-
-              </div>
-            </div>
-            <div class="col-sm-6 col-md-3">
-
-              <div class="form-group">
-                <label>
-                  Lot Quantity 
-              </label>
-                <input id="lot_quantity" class="form-control" type="text" >
-
-              </div>
-            </div>
-        
-          </div>
-
-
-         
-          <div class="col-sm-6">
-
-            <div class="form-group inst_btn">
-              <label>
-                Add Instruments
-            </label>
-            
-              <input id="instrument_token" class="form-control" type="text" ><img  onclick="addInstrument();" src=" {% static 'images/Group 72.png' %} ">
 
             </div>
            
-          </div>
-          <div><img  onclick="addToFav();" src=" {% static 'images/heart.png' %} ">
-            <ul style="height:200px; width:18%;overflow:hidden; overflow-y:scroll;">
-              {% for item in fav %}
-              <li onclick="setInstrument('{{item.instrumentToken}}');">{{ item.instrumentToken }}</li>
-              {% endfor %}
-          </ul>
-          </div>
+            <div class="col-sm-6">
 
+              <div class="form-group inst_btn">
+                <label>
+                  Instrument Token
+              </label>
+              
+                <input value="{{ scalpingOrder.instrumentToken }}" style="width: 80%;" id="instrument_token" class="form-control" type="text" ><img class="add-icon"  onclick="addInstrument();" src=" {% static 'images/Group 72.png' %} ">
+  
+              </div>
+             
+            </div>
+            
           <div class="col-sm-6">
 
             <div class="form-group inst_btn">
               <label>
                 Instrument Name (Tag)
             </label>
-              <input id="instrument_name" class="form-control" type="text" >
+              <input value="{{ scalpingOrder.instrumentTag }}" style="width: 80%;" id="instrument_name" class="form-control" type="text" >
+              <img class="heart-icon"  onclick="addToFav();" src=" {% static 'images/heart.png' %} ">
+            </div>
+          </div>
+            <div class="col-sm-12">
+              <label style="margin-bottom: 10px;">
+                My Favourite
+            </label>
+              <ul style="height: 109px;
+              width: 100%;
+              overflow: hidden;
+              overflow-y: scroll;
+              border: 1px solid #eee;">
+                {% for item in fav %}
+                <li onclick="setInstrument('{{item.instrumentToken}}');">{{ item.instrumentTag }}</li>
+                {% endfor %}
+            </ul>
             </div>
           </div>
 
+
+         
+         
+        
+
+
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-6 col-md-6">
+              
+              <div class="form-group">
+                <label>
+                  Steps
+              </label>
+                <input value="{{ scalpingOrder.steps }}" id="steps" class="form-control" type="text" >
+
+              </div>
+            </div>
+            <div class="col-sm-6 col-md-6">
+
+              <div class="form-group">
+                <label>
+                  Lot Quantity 
+              </label>
+                <input value="{{ scalpingOrder.lotQuantity }}" id="lot_quantity" class="form-control" type="text" >
+
+              </div>
+            </div>
+            <div class="col-sm-4">
 
               <div class="form-group">
                 <label>
                   Entry diff
               </label>
-                <input id="entry_diff" class="form-control" type="text" >
+                <input value="{{ scalpingOrder.entryDiff }}" id="entry_diff" class="form-control" type="text" >
 
               </div>
             </div>
-            <div class="col-sm-6">
-
-              <div class="form-group">
-                <label>
-                  Start price
-              </label>
-                <input id="start_price" class="form-control" type="text" >
-
-              </div>
-            </div>
-            <div class="col-sm-6">
+           
+            <div class="col-sm-4">
 
               <div class="form-group">
                 <label>
                   Exit diff
               </label>
-                <input id="exit_diff" class="form-control" type="text" >
+                <input value="{{ scalpingOrder.exitDiff }}" id="exit_diff" class="form-control" type="text" >
+
+              </div>
+            </div>
+            <div class="col-sm-4">
+
+              <div class="form-group">
+                <label>
+                  Start price
+              </label>
+                <input value="{{ scalpingOrder.startPrice }}" id="start_price" class="form-control" type="text" >
 
               </div>
             </div>
@@ -177,7 +194,7 @@
           <button style="margin-left: auto;
           width: auto;
           padding: 9px 40px;
-          display: -webkit-box;" class="btn btn_sub" onclick="addData();" type="button">Add</button>
+          display: -webkit-box;" class="btn btn_sub" onclick="addData();" type="button">Edit</button>
         
       </div>
  <div class="note_section">
@@ -355,7 +372,7 @@
     }
     else{
       $.ajax({
-          url: "addScalping",
+          url: "updateScalping",
           type: 'POST',
           context: document.body,
           data: {instrumenttype:instrumenttype , instrumentToken: instrumentToken , orderType:orderType, lotQuantity:lotQuantity, steps:steps, entryDiff:entryDiff, exitDiff:exitDiff, startPrice:startPrice,instrumentName:instrumentName,'csrfmiddlewaretoken':"{{ csrf_token }}" },
