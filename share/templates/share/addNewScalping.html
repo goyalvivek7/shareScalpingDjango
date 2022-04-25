@@ -107,7 +107,7 @@
                     Add Instruments
                 </label>
                 
-                  <input style="width: 80%;" id="buyInstrumentToken" class="form-control" type="text" ><img class="add-icon" onclick="addInstrument();" src=" {% static 'images/Group 72.png' %} ">
+                  <input style="width: 80%;" id="buyInstrumentToken" class="form-control" type="text" ><img class="add-icon" onclick="addInstrumentBuy();" src=" {% static 'images/Group 72.png' %} ">
                   
     
                 </div>
@@ -275,7 +275,7 @@
                     Add Instruments
                 </label>
                 
-                  <input style="width: 80%;" id="sellInstrumentToken" class="form-control" type="text" ><img class="add-icon" onclick="addInstrument();" src=" {% static 'images/Group 72.png' %} ">
+                  <input style="width: 80%;" id="sellInstrumentToken" class="form-control" type="text" ><img class="add-icon" onclick="addInstrumentSell();" src=" {% static 'images/Group 72.png' %} ">
                   
     
                 </div>
@@ -475,7 +475,7 @@
 
 
 <script>
-  function addInstrument(){
+  function addInstrumentBuy(){
     var currentDate = new Date().toLocaleDateString();
     var fields = currentDate.split('/');
     if(fields[0].length == 1){
@@ -486,9 +486,47 @@
     }
     var newdate = fields[0]+'_'+fields[1]+'_'+fields[2];
 
-    var insruNormalType = document.getElementById("instrumentType1").checked;
-    var insruNormalCash = document.getElementById("instrumentType2").checked;
-    var insruNormalfno = document.getElementById("instrumentType3").checked;
+    var insruNormalType = document.getElementById("buyEquity").checked;
+    var insruNormalCash = document.getElementById("buyfno").checked;
+    var insruNormalfno = document.getElementById("buyCurrency").checked;
+
+    var instrumentLink = '';
+
+    if(insruNormalType == true)
+    {
+      instrumentLink = "https://preferred.kotaksecurities.com/security/production/TradeApiInstruments_Cash_"+newdate+".txt";
+     
+    }
+    else if(insruNormalCash == true)
+    {
+      instrumentLink = "https://preferred.kotaksecurities.com/security/production/TradeApiInstruments_fno_"+newdate+".txt";
+    }
+    else if(insruNormalfno == true)
+    {
+      instrumentLink = "https://preferred.kotaksecurities.com/security/production/TradeApiInstruments_fno_"+newdate+".txt";
+    }
+
+   
+    console.log(newdate);
+    window.open(instrumentLink, '_blank').focus();
+  }
+</script>
+
+<script>
+  function addInstrumentSell(){
+    var currentDate = new Date().toLocaleDateString();
+    var fields = currentDate.split('/');
+    if(fields[0].length == 1){
+      fields[0] = '0'+fields[0];
+    }
+    if(fields[1].length == 1){
+      fields[1] = '0'+fields[1];
+    }
+    var newdate = fields[0]+'_'+fields[1]+'_'+fields[2];
+
+    var insruNormalType = document.getElementById("sellEquity").checked;
+    var insruNormalCash = document.getElementById("sellFno").checked;
+    var insruNormalfno = document.getElementById("sellCurrency").checked;
 
     var instrumentLink = '';
 
