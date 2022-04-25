@@ -20,7 +20,7 @@
       <div class="table_text_he">
         <div class="row">
           <div class="col-6 text-left m-auto"><h5 class="tittletwo">Already Running Scalping</h5> </div>
-          <div class="col-6 text-right"><a class="btnone" href="http://127.0.0.1:8000/share/addNewScalping"> <img style="vertical-align: text-bottom;
+          <div class="col-6 text-right"><a class="btnone" href="http://43.204.22.205:8000/share/addNewScalping"> <img style="vertical-align: text-bottom;
             margin-right: 10px;" src=" {% static 'images/Icon ionic-ios-add.png' %} ">Add New Scarlping</a></div>
         </div>
       </div>
@@ -89,7 +89,7 @@
           data: { orderid: order,'csrfmiddlewaretoken':"{{ csrf_token }}" },
           success: function (data) {
                console.log(data);
-               location.replace('http://127.0.0.1:8000/share/openEditScalping');
+               location.replace('http://43.204.22.205:8000/share/openEditScalping');
           },
       }).done(function () {
           // alert('finished extracting data');;
