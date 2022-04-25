@@ -338,36 +338,38 @@ def addScalping(request):
                                        lotQuantity=lotQuantity, steps=steps, entryDiff=entryDiff, exitDiff=exitDiff, startPrice=startPrice ,instrumenttype=instrumenttype,instrumentTag=intrumentTag)
              scaplingOrder.save()
 
-    if(jsonEncoded[1]):
-        if(jsonEncoded[1]['type'] == 'buy'):
-             currentdate = datetime.today().strftime('%d-%m-%Y')
-             instrumentToken = jsonEncoded[1]['instrumentToken']
-             orderType = 'Buy'
-             lotQuantity = jsonEncoded[1]['lotQuantity']
-             steps = jsonEncoded[1]['steps']
-             entryDiff = jsonEncoded[1]['entryDiff']
-             exitDiff = jsonEncoded[1]['exitDiff']
-             startPrice = jsonEncoded[1]['startPrice']
-             instrumenttype = jsonEncoded[1]['intrumentType']
-             intrumentTag = jsonEncoded[1]['instrumentTag']
-             scaplingOrder = ScalpingOrder(userid=request.session['user_id'], currentdate=currentdate, instrumentToken=instrumentToken, orderType=orderType,
-                                       lotQuantity=lotQuantity, steps=steps, entryDiff=entryDiff, exitDiff=exitDiff, startPrice=startPrice ,instrumenttype=instrumenttype,instrumentTag=intrumentTag)
-             scaplingOrder.save()
-        else:
-             currentdate = datetime.today().strftime('%d-%m-%Y')
-             instrumentToken = jsonEncoded[1]['instrumentToken']
-             orderType = 'Sell'
-             lotQuantity = jsonEncoded[1]['lotQuantity']
-             steps = jsonEncoded[1]['steps']
-             entryDiff = jsonEncoded[1]['entryDiff']
-             exitDiff = jsonEncoded[1]['exitDiff']
-             startPrice = jsonEncoded[1]['startPrice']
-             instrumenttype = jsonEncoded[1]['intrumentType']
-             intrumentTag = jsonEncoded[1]['instrumentTag']
-             scaplingOrder = ScalpingOrder(userid=request.session['user_id'], currentdate=currentdate, instrumentToken=instrumentToken, orderType=orderType,
-                                       lotQuantity=lotQuantity, steps=steps, entryDiff=entryDiff, exitDiff=exitDiff, startPrice=startPrice ,instrumenttype=instrumenttype,instrumentTag=intrumentTag)
-             scaplingOrder.save()        
-
+    try:         
+         if(jsonEncoded[1]):
+             if(jsonEncoded[1]['type'] == 'buy'):
+                  currentdate = datetime.today().strftime('%d-%m-%Y')
+                  instrumentToken = jsonEncoded[1]['instrumentToken']
+                  orderType = 'Buy'
+                  lotQuantity = jsonEncoded[1]['lotQuantity']
+                  steps = jsonEncoded[1]['steps']
+                  entryDiff = jsonEncoded[1]['entryDiff']
+                  exitDiff = jsonEncoded[1]['exitDiff']
+                  startPrice = jsonEncoded[1]['startPrice']
+                  instrumenttype = jsonEncoded[1]['intrumentType']
+                  intrumentTag = jsonEncoded[1]['instrumentTag']
+                  scaplingOrder = ScalpingOrder(userid=request.session['user_id'], currentdate=currentdate, instrumentToken=instrumentToken, orderType=orderType,
+                                            lotQuantity=lotQuantity, steps=steps, entryDiff=entryDiff, exitDiff=exitDiff, startPrice=startPrice ,instrumenttype=instrumenttype,instrumentTag=intrumentTag)
+                  scaplingOrder.save()
+             else:
+                  currentdate = datetime.today().strftime('%d-%m-%Y')
+                  instrumentToken = jsonEncoded[1]['instrumentToken']
+                  orderType = 'Sell'
+                  lotQuantity = jsonEncoded[1]['lotQuantity']
+                  steps = jsonEncoded[1]['steps']
+                  entryDiff = jsonEncoded[1]['entryDiff']
+                  exitDiff = jsonEncoded[1]['exitDiff']
+                  startPrice = jsonEncoded[1]['startPrice']
+                  instrumenttype = jsonEncoded[1]['intrumentType']
+                  intrumentTag = jsonEncoded[1]['instrumentTag']
+                  scaplingOrder = ScalpingOrder(userid=request.session['user_id'], currentdate=currentdate, instrumentToken=instrumentToken, orderType=orderType,
+                                            lotQuantity=lotQuantity, steps=steps, entryDiff=entryDiff, exitDiff=exitDiff, startPrice=startPrice ,instrumenttype=instrumenttype,instrumentTag=intrumentTag)
+                  scaplingOrder.save()        
+    except:
+         print('error')
 
 
     

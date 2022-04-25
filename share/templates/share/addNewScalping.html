@@ -26,20 +26,16 @@
     </div>
     <div class="scarlping_inner">
       
-      <h5 class="tittletwo" style="font-size: 19px; padding-top: 31px; padding-bottom: 31px;">Add New Scalping </h5>
-      <div class="scarlping_form">
+      <h5 class="tittletwo" style="    padding-top: 0px;
+      padding-bottom: 13px;"></h5>
+      <div class="scarlping_form" style="padding: 0px;     box-shadow: none;">
        
           <div class="row">
            
             
 
           </div>
-          <label style="letter-spacing: 1px;
-          margin-top: 0px;
-          margin-bottom: 10px;
-          color: #09034b;">
-            Scalping Type
-        </label>
+         
           <div class="row">
 
             
@@ -48,57 +44,58 @@
               <div class="form-group">
                
               <div class="form-check check_btn" style="float: none;
-              width: 100%;     border-bottom: 2px solid #000;
-    padding: 20px;
+              width: 100%;     
+    padding: 3px; 
+    margin-bottom: 0px;
     text-align: center;     background: #fff;">
                 <input class="form-check-input" type="checkbox" name="scalpingtype" id="scalpingtype1" value="Buy" checked>
                 <label class="form-check-label" for="exampleRadios1">
                   Buy
                 </label>
               </div>
-              
-              
-              </div>
 
-             <div class="row">
-              <div class="col-sm-12 col-md-12">
-
-                <div class="form-group">
-                  <label>
-                    Instrument  Type
-                </label>
-                <div class="form-check check_btn">
-                  <input class="form-check-input" type="radio" name="instrumentType" id="buyEquity" value="Normal" checked>
-                  <label class="form-check-label" for="exampleRadios1">
-                    Equity 
-                  </label>
-                </div>
-                <div class="form-check check_btn">
-                  <input class="form-check-input" type="radio" name="instrumentType" id="buyfno" value="fno" >
-                  <label class="form-check-label" for="exampleRadios3">
-                    FNO
-                  </label>
+              <div class="row">
+                <div class="col-sm-12 col-md-12">
+                  
+                  <div class="form-group" style="background: #fff; padding-left: 10px; border-bottom: 2px solid #000;">
+                  
+                  <div class="form-check check_btn" style="margin-top: 2px;">
+                    <input class="form-check-input" type="radio" name="instrumentType" id="buyEquity" value="Normal" checked>
+                    <label class="form-check-label" for="exampleRadios1">
+                      Equity 
+                    </label>
+                  </div>
+                  <div class="form-check check_btn" style="margin-top: 2px;">
+                    <input class="form-check-input" type="radio" name="instrumentType" id="buyfno" value="fno" >
+                    <label class="form-check-label" for="exampleRadios3">
+                      FNO
+                    </label>
+                  </div>
+                  
+                  <div class="form-check check_btn" style="margin-top: 2px;">
+                    <input class="form-check-input" type="radio" name="instrumentType" id="buyCurrency" value="Cash" >
+                    <label class="form-check-label" for="exampleRadios2">
+                      Currency
+                    </label>
+                  </div>
+    
+                  <div class="form-check check_btn" style="margin-top: 2px;">
+                    <input class="form-check-input" type="radio" name="instrumentType" id="buyCommodity" value="Commodity" >
+                    <label class="form-check-label" for="exampleRadios4">
+                      Commodity
+                    </label>
+                  </div>
+                  <div style="clear: both;"></div>
+                  </div>
+    
                 </div>
                 
-                <div class="form-check check_btn">
-                  <input class="form-check-input" type="radio" name="instrumentType" id="buyCurrency" value="Cash" >
-                  <label class="form-check-label" for="exampleRadios2">
-                    Currency
-                  </label>
-                </div>
-  
-                <div class="form-check check_btn">
-                  <input class="form-check-input" type="radio" name="instrumentType" id="buyCommodity" value="Commodity" >
-                  <label class="form-check-label" for="exampleRadios4">
-                    Commodity
-                  </label>
-                </div>
-  
-                </div>
-  
               </div>
               
-            </div>
+              
+              </div>
+
+             
             <div class="row">
               <div class="col-md-6">
     
@@ -131,7 +128,7 @@
                 <label style="margin-bottom: 10px;">
                   My Favourite
               </label>
-                <ul style="    height: 140px;
+                <ul style="        height: 110px;
                 overflow: hidden;
                 overflow-y: scroll;
                 margin-left: auto;
@@ -140,7 +137,7 @@
                 border: 1px solid;
                 border-color: #E8EFF9; background: #fff;">
                   {% for item in fav %}
-                  <li onclick="setBuyInstrument('{{item.instrumentToken}}');">{{ item.instrumentTag }}</li>
+                  <li onclick="setBuyInstrument('{{item.instrumentToken}}','{{item.instrumentTag}}');">{{ item.instrumentTag }}</li>
                   {% endfor %}
               </ul>
             </div>
@@ -213,12 +210,14 @@
 
             <div class="col-sm-6 col-md-6" style="background: #eee;">
 
-              <div class="form-group">
+              <div class="form-group" style="margin-bottom:0px;">
                
-                <div class="form-check check_btn" style="float: none;
-                width: 100%; border-bottom: 2px solid #000;     background: #fff;
-    padding: 20px;
-    text-align: center;">
+                <div class="form-check check_btn" style="    float: none;
+                width: 100%;
+                padding: 3px;
+                margin-bottom: 0px;
+                text-align: center;
+                background: #fff;">
                   <input class="form-check-input" type="checkbox" name="scalpingtype" id="scalpingtype2" value="Sell" >
                   <label class="form-check-label" for="exampleRadios2">
                     Sell
@@ -230,24 +229,24 @@
              <div class="row">
               <div class="col-sm-12 col-md-12">
 
-                <div class="form-group">
-                  <label>
-                    Instrument  Type
-                </label>
-                <div class="form-check check_btn">
+                <div class="form-group" style="    background: #fff;
+                padding-left: 10px;
+                border-bottom: 2px solid #000;">
+                 
+                <div class="form-check check_btn" style="margin-top: 2px;">
                   <input class="form-check-input" type="radio" name="sellinstrumentType" id="sellEquity" value="Normal" checked>
                   <label class="form-check-label" for="exampleRadios1">
                     Equity 
                   </label>
                 </div>
-                <div class="form-check check_btn">
+                <div class="form-check check_btn" style="margin-top: 2px;">
                   <input class="form-check-input" type="radio" name="sellinstrumentType" id="sellFno" value="fno" >
                   <label class="form-check-label" for="exampleRadios3">
                     FNO
                   </label>
                 </div>
                 
-                <div class="form-check check_btn">
+                <div class="form-check check_btn" style="margin-top: 2px;">
                   <input class="form-check-input" type="radio" name="sellinstrumentType" id="sellCurrency" value="Cash" >
                   <label class="form-check-label" for="exampleRadios2">
                     Currency
@@ -255,13 +254,13 @@
                 </div>
   
                 
-                <div class="form-check check_btn">
+                <div class="form-check check_btn" style="margin-top: 2px;">
                   <input class="form-check-input" type="radio" name="sellinstrumentType" id="sellCommodity" value="Commodity" >
                   <label class="form-check-label" for="exampleRadios4">
                     Commodity
                   </label>
                 </div>
-  
+                <div style="clear: both;"></div>
                 </div>
   
               </div>
@@ -299,7 +298,7 @@
                 <label style="margin-bottom: 10px;">
                   My Favourite
               </label>
-                <ul style="    height: 140px;
+                <ul style="        height: 110px;
                 overflow: hidden;
                 overflow-y: scroll;
                 margin-left: auto;
@@ -308,7 +307,7 @@
                 border: 1px solid;
                 border-color: #E8EFF9; background: #fff;">
                   {% for item in fav %}
-                  <li onclick="setSellInstrument('{{item.instrumentToken}}');">{{ item.instrumentTag }}</li>
+                  <li onclick="setSellInstrument('{{item.instrumentToken}}','{{item.instrumentTag}}');">{{ item.instrumentTag }}</li>
                   {% endfor %}
               </ul>
             </div>
@@ -384,7 +383,7 @@
           <button style="margin-left: auto;
           width: auto;
           padding: 9px 40px;
-          display: -webkit-box;" class="btn btn_sub" onclick="addData();" type="button">Add</button>
+          display: -webkit-box; margin-top: 13px;" class="btn btn_sub" onclick="addData();" type="button">Add</button>
         
       </div>
  <div class="note_section">
@@ -402,13 +401,15 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 <script>
-  function setBuyInstrument(instruemntToken){
+  function setBuyInstrument(instruemntToken,instrumentTag){
     var instrumentToken = document.getElementById("buyInstrumentToken").value;
     document.getElementById("buyInstrumentToken").value = instruemntToken;
+    document.getElementById("buyInstrumenttag").value = instrumentTag;
   }
-  function setSellInstrument(instruemntToken){
+  function setSellInstrument(instruemntToken,instrumentTag){
     var instrumentToken = document.getElementById("sellInstrumentToken").value;
     document.getElementById("sellInstrumentToken").value = instruemntToken;
+    document.getElementById("sellInstrumenttag").value = instrumentTag;
   }
 </script>
 
