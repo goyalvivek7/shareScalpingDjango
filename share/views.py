@@ -59,6 +59,20 @@ def addNewScalping(request):
     context = {"addnew": "addnew","fav":fav,"loggedInUser":UserData.user_id}
     return render(request, 'share/addNewScalping.html', context)
 
+def openMyFavourite(request):
+    var = request.session['user_id'];
+    loggedInUser = request.session['user_id'];
+    UserData = User.objects.get(id=loggedInUser)
+    fav = Favourite.objects.all()
+    context = {"addnew": "addnew","fav":fav,"loggedInUser":UserData.user_id}
+    return render(request, 'share/myFavourite.html', context)
+
+
+def deleteFavourite(request):
+    requestData = request.POST
+    Favourite.objects.filter(id=requestData['favId']).delete()
+    return HttpResponse("Hello, world. You're at the polls index.")
+
 
 def editScalping(request):
     requestData = request.POST

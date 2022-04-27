@@ -1,0 +1,143 @@
+{% load static %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Add New Scarlping</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link href=" {% static '/css/style.css' %} " rel="stylesheet" type="text/css" defer="">
+</head>
+
+<style>
+  .listView
+  {height:200px; width:18%;overflow:hidden; overflow-y:scroll;
+  }
+</style>
+
+<body>
+<div class="scarlping-section" style="padding-top: 19px;">
+
+	<div class="container">
+    <div class="scarlping_inner" style="background: transparent;     padding-bottom: 15px;">
+    <h5 class="tittletwo tittlenewone" style="margin-top: 0px; font-size: 15px; ">Logged In User : {{ loggedInUser }}</h5>
+    </div>
+    <div class="scarlping_inner">
+      
+      <h5 class="tittletwo" style="    padding-top: 0px;
+      padding-bottom: 13px;"></h5>
+      <div class="scarlping_form" style="padding: 0px;     box-shadow: none;">
+       
+    
+         
+         
+
+            
+            <div style="background: #eae5e5;">
+
+
+             
+            <div class="row">
+            
+             
+              <div class="col-sm-12">
+                <div class="row" >
+               
+              <div class="col-sm-12">
+                <label style="margin-bottom: 10px;padding-left:30px;">
+                  Delete Favourite
+              </label>
+                <ul style="        height: 110px;
+                overflow: hidden;
+                overflow-y: scroll;
+                margin-left: auto;
+                text-align: left;
+                padding: 10px;
+                border: 1px solid;
+                border-color: #E8EFF9; background: #fff;">
+                  {% for item in fav %}
+                  <li onclick="deleteFavourite('{{item.id}}','{{item.instrumentTag}}');">{{ item.instrumentTag }}</li>
+                  {% endfor %}
+              </ul>
+            </div>
+            </div>
+              </div>
+            
+             
+    
+              
+              
+               
+
+            </div>
+
+
+
+
+          
+
+              
+             <div class="row">
+            
+              
+            </div>
+            <div class="row">
+              
+              <div class="col-md-6">
+    
+             
+        
+              </div>
+              
+            </div>
+              </div>
+            </div>
+             
+    
+             
+            </div>
+           
+        
+          </div>        
+      </div>
+    </div>
+  </div>
+
+
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+<script>
+  function deleteFavourite(id,tag){
+
+    if (confirm('delete '+tag + ' ?')) {
+      $.ajax({
+        url: "deleteFav",
+        type: 'POST',
+        context: document.body,
+        data: {favId:id,'csrfmiddlewaretoken':"{{ csrf_token }}" },
+        success: function (data) {
+             console.log(data);
+             window.location.reload();
+        },
+    }).done(function () {
+        // alert('finished extracting data');;
+    });
+
+      
+    } else {
+      
+    }
+
+   
+  }
+</script>
+
+
+</body>
+
+</html>
