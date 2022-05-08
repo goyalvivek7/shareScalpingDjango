@@ -22,9 +22,9 @@
           <div class="col-sm-4 col-6 text-left m-auto"><h5 class="tittletwo">Already Running Scalping</h5> </div>
           <div class="col-sm-4 col-6  text-left m-auto"><h5 class="tittletwo tittlenewone" style="margin: 0px;
             text-align: center;     color: #190e8b;">Logged In User : {{ loggedInUser }}</h5> </div>
-          <div class="col-sm-4 col-12  text-right"><a class="btnone" href="http://127.0.0.1:8000/share/addNewScalping"> <img style="vertical-align: text-bottom;
+          <div class="col-sm-4 col-12  text-right"><a class="btnone" href="/share/addNewScalping"> <img style="vertical-align: text-bottom;
             margin-right: 10px;" src=" {% static 'images/Icon ionic-ios-add.png' %} ">Add New Scarlping</a></div>
-            <a href="http://127.0.0.1:8000/share/openMyFavourite"><img style="vertical-align: text-bottom;
+            <a href="/share/openMyFavourite"><img style="vertical-align: text-bottom;
             margin-right: 10px;" src=" {% static 'images/star-2.png' %} "></a>
             <div onclick="logoutUser();">Logout</div>
         </div>
@@ -94,7 +94,8 @@
           data: { orderid: order,'csrfmiddlewaretoken':"{{ csrf_token }}" },
           success: function (data) {
                console.log(data);
-               location.replace('http://127.0.0.1:8000/share/openEditScalping');
+               var base_url = window.location.origin;
+               location.replace(base_url+'/share/openEditScalping');
           },
       }).done(function () {
           // alert('finished extracting data');;

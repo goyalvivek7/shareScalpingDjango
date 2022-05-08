@@ -291,16 +291,18 @@ def loginUser(request):
                 accessCode=accessCode,app_id = app_id ,password = passwords)
     user.save()
 
-    backgroundProcess = BackgroundProcess.objects.all()
-    process = backgroundProcess[0]
-    process.status = 'running'
-    process.save()
+    
 
     request.session['user_id'] = user.id
+
+    process = BackgroundProcess(status = 'stop')
+    process.save()
 
     t = threading.Thread(target=backgroundTask.backgroundTest,args=[100])
     t.setDaemon(True)
     t.start()
+
+    
 
     return HttpResponse("Hello, world. You're at the polls index.")
 

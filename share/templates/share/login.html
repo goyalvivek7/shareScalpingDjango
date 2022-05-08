@@ -75,7 +75,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script>
   function login() {
-    console.log('login','login');
+    var base_url = window.location.origin;
     var userid = document.getElementById("userid");
     var consumerKey = document.getElementById("consumerKey");
     var accessToken = document.getElementById("accessToken");
@@ -97,7 +97,7 @@
             'csrfmiddlewaretoken':"{{ csrf_token }}" },
           success: function (data) {
                console.log(data);
-               location.replace('http://127.0.0.1:8000/share/dashboard');
+               location.replace(base_url+'/share/dashboard');
           },
       }).done(function () {
           // alert('finished extracting data');;

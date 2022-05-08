@@ -646,7 +646,8 @@
           data: {'data':JSON.stringify(dataToSend),'csrfmiddlewaretoken':"{{ csrf_token }}" },
           success: function (data) {
                console.log(data);
-               location.replace('http://127.0.0.1:8000/share/dashboard');
+               var base_url = window.location.origin;
+               location.replace(base_url+'/share/dashboard');
           },
       }).done(function () {
           // alert('finished extracting data');;
