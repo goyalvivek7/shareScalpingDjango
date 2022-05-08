@@ -17,4 +17,5 @@ urlpatterns = [
     path('updateScalping',views.updateScalpingOrder),
     path('openMyFavourite',views.openMyFavourite),
     path('deleteFav',views.deleteFavourite),
+    path('logoutUser',views.logoutUser),
 ]

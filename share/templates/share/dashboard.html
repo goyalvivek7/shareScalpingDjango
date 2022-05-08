@@ -22,10 +22,11 @@
           <div class="col-sm-4 col-6 text-left m-auto"><h5 class="tittletwo">Already Running Scalping</h5> </div>
           <div class="col-sm-4 col-6  text-left m-auto"><h5 class="tittletwo tittlenewone" style="margin: 0px;
             text-align: center;     color: #190e8b;">Logged In User : {{ loggedInUser }}</h5> </div>
-          <div class="col-sm-4 col-12  text-right"><a class="btnone" href="http://43.204.22.205:8000/share/addNewScalping"> <img style="vertical-align: text-bottom;
+          <div class="col-sm-4 col-12  text-right"><a class="btnone" href="http://127.0.0.1:8000/share/addNewScalping"> <img style="vertical-align: text-bottom;
             margin-right: 10px;" src=" {% static 'images/Icon ionic-ios-add.png' %} ">Add New Scarlping</a></div>
-            <a href="http://43.204.22.205:8000/share/openMyFavourite"><img style="vertical-align: text-bottom;
+            <a href="http://127.0.0.1:8000/share/openMyFavourite"><img style="vertical-align: text-bottom;
             margin-right: 10px;" src=" {% static 'images/star-2.png' %} "></a>
+            <div onclick="logoutUser();">Logout</div>
         </div>
       </div>
       <div class="table_inner">
@@ -93,11 +94,36 @@
           data: { orderid: order,'csrfmiddlewaretoken':"{{ csrf_token }}" },
           success: function (data) {
                console.log(data);
-               location.replace('http://43.204.22.205:8000/share/openEditScalping');
+               location.replace('http://127.0.0.1:8000/share/openEditScalping');
           },
       }).done(function () {
           // alert('finished extracting data');;
       });
+  }
+</script>
+
+<script>
+  function logoutUser(){
+
+
+    if (confirm('Are you sure you want to logout?')) {
+      $.ajax({
+          url: "logoutUser",
+          type: 'POST',
+          context: document.body,
+          data: { 'csrfmiddlewaretoken':"{{ csrf_token }}" },
+          success: function (data) {
+               console.log(data);
+               window.location.reload();
+          },
+      }).done(function () {
+          // alert('finished extracting data');;
+      });
+    
+    } else {
+      // Do nothing!
+      console.log('Thing was not saved to the database.');
+    }
   }
 </script>
 
@@ -124,12 +150,6 @@
       // Do nothing!
       console.log('Thing was not saved to the database.');
     }
-
-   
-      
-    
-
-   
   }
 </script>
 

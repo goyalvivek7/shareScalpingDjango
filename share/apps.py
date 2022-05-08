@@ -11,7 +11,7 @@ class ShareConfig(AppConfig):
         if os.environ.get('RUN_MAIN'):
             t = threading.Thread(target=backgroundTask.backgroundTest,args=[100])
             t.setDaemon(True)
-            t.start()
+            # t.start()
    
 class backgroundTask():
 
