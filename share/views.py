@@ -11,6 +11,7 @@ from share.models import OrderHistory
 from share.models import ScalpingOrder
 from share.models import BackgroundProcess
 from share.models import Favourite
+from share.models import RememberMeUser
 from django.contrib import messages
 from datetime import datetime
 import time
@@ -33,8 +34,15 @@ def index(request):
         
     except:
         scalpingOrder = ScalpingOrder.objects.all()
+        rememberMeUser = RememberMeUser.objects.all()
+        
+        try:
+            userData = rememberMeUser[0]
+        except:
+            userData = {}    
+
         context = {
-            "scalpingOrder": scalpingOrder}
+            "scalpingOrder": scalpingOrder,"user":userData}
         return render(request, 'share/login.html', context)
     
 
@@ -49,7 +57,15 @@ def dashboardView(request):
             "scalpingOrder": scalpingOrder,"loggedInUser":UserData.user_id}
         return render(request, 'share/dashboard.html', context)
     except:
-        context = {}
+        rememberMeUser = RememberMeUser.objects.all()
+        
+        try:
+            userData = rememberMeUser[0]
+        except:
+            userData = {}    
+
+        context = {
+            "scalpingOrder": scalpingOrder,"user":userData}
         return render(request, 'share/login.html', context)
 
 
@@ -282,6 +298,11 @@ def loginUser(request):
     app_id = requestData['appId']
     passwords = requestData['password']
 
+    RememberMeUser.objects.all().delete()
+    rememberMeUser = RememberMeUser(user_id=userId, consumer_key=consumerKey,access_token=accessToken,
+                accessCode=accessCode,app_id = app_id ,password = passwords)
+    rememberMeUser.save()
+
     client = ks_api.KSTradeApi(access_token=accessToken, userid=userId,
                                consumer_key=consumerKey, ip="127.0.0.1", app_id=app_id)
     client.login(password=passwords)
@@ -290,6 +311,11 @@ def loginUser(request):
     user = User(user_id=userId, consumer_key=consumerKey,access_token=accessToken,
                 accessCode=accessCode,app_id = app_id ,password = passwords)
     user.save()
+
+
+    rememberMeUser = RememberMeUser(user_id=userId, consumer_key=consumerKey,access_token=accessToken,
+                accessCode=accessCode,app_id = app_id ,password = passwords)
+    rememberMeUser.save()
 
     
 

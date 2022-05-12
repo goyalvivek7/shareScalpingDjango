@@ -25,27 +25,27 @@
 <p style="font-weight: 400; font-size: 16px; padding-top: 17px;">Did you forget your password?</p>
 <form>
   <div class="form-group">
-    <input class="form-control" id="userid" type="text" placeholder="User Id" value="RAJEE19970">
+    <input class="form-control" id="userid" type="text" placeholder="User Id" value={{ user.user_id }}>
 
   </div>
   <div class="form-group">
-    <input class="form-control" id="consumerKey" type="text" placeholder="Consumer Key" value="pdRLQ0EOtduAn91p7wdLiqFkxnca">
+    <input class="form-control" id="consumerKey" type="text" placeholder="Consumer Key" value={{user.consumer_key}}>
   </div>
 
   <div class="form-group">
-    <input class="form-control" id="appId" type="text" placeholder="App Id" value="99628ce6-d9d0-4161-b12b-10fdf36ac5bf">
+    <input class="form-control" id="appId" type="text" placeholder="App Id" value={{user.app_id}}>
   </div>
 
   <div class="form-group">
-    <input class="form-control" id="accessToken" type="text" placeholder="Access Token" value="3825657f-4b11-34da-91ef-f3350affb90e">
+    <input class="form-control" id="accessToken" type="text" placeholder="Access Token" value={{user.access_token}}>
   </div>
 
   <div class="form-group">
-    <input class="form-control" id="accessCode" type="text" placeholder="Access Code" value="3345">
+    <input class="form-control" id="accessCode" type="text" placeholder="Access Code" value={{user.accessCode}}>
   </div>
 
   <div class="form-group">
-    <input class="form-control" id="password" type="text" placeholder="Password" value="march@2022">
+    <input class="form-control" id="password" type="text" placeholder="Password" value={{user.password}}>
   </div>
 
   <div class="form-group">

@@ -1,5 +1,15 @@
 from django.db import models
 
+
+
+class RememberMeUser(models.Model):
+    user_id = models.CharField(max_length=200)
+    consumer_key = models.CharField(max_length=200)
+    access_token = models.CharField(max_length=200)
+    accessCode = models.TextField()
+    app_id = models.CharField(max_length=200)
+    password = models.CharField(max_length=200)
+
 class User(models.Model):
     user_id = models.CharField(max_length=200)
     consumer_key = models.CharField(max_length=200)
