@@ -64,8 +64,7 @@ def dashboardView(request):
         except:
             userData = {}    
 
-        context = {
-            "scalpingOrder": scalpingOrder,"user":userData}
+        context = {"user":userData}
         return render(request, 'share/login.html', context)
 
 
